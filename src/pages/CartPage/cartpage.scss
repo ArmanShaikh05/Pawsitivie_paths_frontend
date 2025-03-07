@@ -1,0 +1,139 @@
+@import "../../styles/utils.scss";
+
+.cart-container {
+  width: 100%;
+  height: calc(100vh - $navbar-height);
+  display: flex;
+  padding: 1rem;
+  gap: 2rem;
+
+  .cart-wrapper {
+    // border: $border;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+
+    > h3 {
+      font-size: 1.8rem;
+      font-weight: 550;
+      color: $primary-color;
+    }
+
+    > p {
+      font-size: 0.9rem;
+    }
+
+    .cart-box {
+      padding: 1rem;
+      // border: $border;
+      width: 100%;
+      margin-top: 2rem;
+      border-radius: 10px;
+      box-shadow: $shadow-md-dark;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .cart-headings {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 3.5fr 1fr 1.5fr 1fr;
+
+        > h4 {
+          font-weight: 600;
+        }
+      }
+
+      .cart-items-box {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        height: 32rem;
+        overflow-y: auto;
+
+      }
+    }
+  }
+
+  .payment-box{
+    width: 27%;
+    height: 100%;
+    margin: auto 0;
+    border-radius: 10px;
+    box-shadow: $shadow-md-dark;
+    padding: 1rem;
+    gap: 1rem;
+
+
+
+    .address-box{
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      height: 17rem;
+
+      >h3{
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+
+      .address-details{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+
+    .coupon-box{
+      display: flex;
+      flex-direction:column;
+      gap:1rem;
+      height: 17rem;
+
+      >h3{
+        margin-top: 1rem;
+        font-size: 1.2rem;
+        font-weight: 500;
+
+      }
+      >p{
+        font-size: 0.825rem;
+      }
+    }
+
+    .payment{
+      display: flex;
+      flex-direction: column;
+      width: 95%;
+      margin: 1rem auto;
+      background-color: $orange;
+      padding: 1rem;
+      border-radius: 10px;
+
+      >h3{
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .card-details{
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        margin: 1rem 0 2rem 0;
+
+        .detail-row{
+          width: 100%;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+
+          >p{
+            text-align: right;
+          }
+        }
+      }
+      
+    }
+
+  }
+}

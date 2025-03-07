@@ -1,0 +1,42 @@
+@import "../../styles/utils.scss";
+
+.manage-owned-pets-container {
+  width: 100%;
+  height: calc(100vh - $navbar-height);
+  overflow-y: auto;
+
+  .owned-pets {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: 95%;
+    margin: 1rem auto 1rem auto;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 20px 2px rgba(0, 0, 0, 0.2);
+
+    .owned-pets-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-inline: 1rem;
+
+      > h2 {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+    }
+
+    .owned-pets-container {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding-inline: 1rem;
+
+    }
+  }
+}

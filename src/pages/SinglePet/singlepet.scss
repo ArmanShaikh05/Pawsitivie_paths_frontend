@@ -1,0 +1,239 @@
+@import "../../styles/utils.scss";
+
+.single-page {
+  width: 100%;
+  padding: 1rem;
+  height: calc(100vh - $navbar-height);
+  overflow-y: auto;
+  .single-pet-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+
+    .pet-images-section {
+      // border: $border;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+
+      .full-size-image {
+        width: 90%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+      }
+
+      .image-carousels {
+        // border: $border;
+        width: 90%;
+      }
+
+      > svg {
+        position: absolute;
+        top: 6%;
+        left: 13%;
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.3);
+        padding: 0.7rem;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 10px;
+      }
+
+      .share-footer {
+        display: flex;
+        width: 90%;
+        margin: 2rem auto 1rem auto;
+        align-items: center;
+        gap: 1.5rem;
+
+        .share-icon {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+
+          > p {
+            font-size: 1.1rem;
+          }
+        }
+
+        .share-handles {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          > svg {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .pet-details-section {
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      position: relative;
+
+      .rating-badge {
+        color: $white;
+        background-color: $color-blue-700;
+        width: max-content;
+        position: absolute;
+        height: 2rem;
+        right: 7%;
+      }
+
+      > h2 {
+        font-size: 1.6rem;
+        font-weight: 500;
+      }
+
+      > h4 {
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+      }
+
+      .details-row {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e1e4e6;
+        margin-bottom: 1rem;
+        > p {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-right: 1rem;
+          font-size: 0.9rem;
+          line-height: 1.25rem;
+        }
+      }
+    }
+  }
+
+  .pet-testimonial {
+    width: 90%;
+    margin: 0.5rem auto;
+
+    > h2 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: $primary-color;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .pet-description {
+    width: 90%;
+    margin: 0.5rem auto;
+    margin-bottom: 4rem;
+
+    > h2 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: $primary-color;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .similar-pets {
+    width: 90%;
+    margin: 4rem auto 1rem auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    > p {
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+
+    > h2 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: $primary-color;
+      margin-bottom: 0.5rem;
+    }
+
+    .view-all-badge {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background-color: $color-blue-700;
+      color: #fff;
+      width: max-content;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+  }
+
+  .customer-reviews {
+    width: 90%;
+    margin: 4rem auto 1rem auto;
+
+    .styled-heading{
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: $primary-color;
+      margin-bottom: 0.5rem;
+    }
+
+    
+    .reviews-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding-inline: 1rem;
+
+      .review {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.4rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid $color-grey-400;
+        margin-bottom: 2rem;
+
+        .review-header {
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+
+          .reviewer-name {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+
+            .review-star-date {
+              display: flex;
+              gap: 0.8rem;
+              align-items: center;
+
+              .review-star {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+              }
+            }
+          }
+        }
+
+        .review-body {
+          display: flex;
+          flex-direction: column;
+
+          .review-title {
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+@import "../../styles/utils.scss";
+
+.pets-page-container {
+  // border: $border;
+  width: 100%;
+  height: calc(100vh - $navbar-height);
+  overflow-y: scroll;
+
+  .pets-category-box {
+    display: flex;
+    align-items: center;
+    width: 95%;
+    margin: 1rem auto;
+    border-radius: 0.8rem;
+    height: 9rem;
+    justify-content: space-around;
+    padding: 1rem 0;
+    -webkit-box-shadow: 0px 0px 33px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 33px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 33px 2px rgba(0, 0, 0, 0.2);
+
+    .category {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: $transition;
+
+      > img {
+        aspect-ratio: 1;
+        width: 5rem;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      > h3 {
+        font-size: 1rem;
+        font-weight: 500;
+      }
+    }
+
+  }
+
+  .pets-content-area {
+    width: 95%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 20% auto;
+    gap: 1rem;
+    margin-top: 3rem;
+
+    .pets-detail-box {
+      // border: $border;
+      display: flex;
+      flex-direction: column;
+
+      .pet-search {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .pet-detail-cards {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+    }
+
+    .filter-box {
+      > h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: $primary-color;
+        margin-bottom: 0.8rem;
+      }
+
+      .filters {
+        display: flex;
+        flex-direction: column;
+        padding-left: 1rem;
+        border-bottom: 1px solid #F0F2F4;
+        padding-bottom: 1rem;
+        width: 90%;
+        margin: 1rem auto;
+
+        > h3 {
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}

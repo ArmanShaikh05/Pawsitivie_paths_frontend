@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@import "./utils.scss";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html,
+body {
+  overflow: hidden;
+}
+
+.section-divider {
+  width: 100%;
+  height: calc(100vh - $navbar-height);
+  overflow: auto;
+  display: grid;
+  // display:flex;
+  grid-template-columns: $sidebar-width auto;
+}
+
+.btn {
+  background-color: $color-blue-hover;
+  color: $color-grey-0;
+  padding: 0rem 0.9rem;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: $transition;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-blue-700;
+  }
+}
+
+.hidden-scrollbar {
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+.custom-scrollbar {
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #4a90e2 #f0f0f0; /* Scrollbar color, background color */
+
+  /* For WebKit browsers (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    width: 5px; /* Set the width of the scrollbar */
+    height: 5px; /* Set the height of the scrollbar for horizontal scrolling */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #4a90e2; /* Color of the scrollbar */
+    border-radius: 10px; /* Rounded corners of the scrollbar */
+    border: 2px solid #f0f0f0; /* Space between the scrollbar and the edge */
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Background color of the scrollbar track */
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #357abd; /* Darker color on hover */
+  }
+}

@@ -1,0 +1,52 @@
+@import "../../../styles/utils.scss";
+
+.footer {
+  background-color: $textGrey;
+  color: $black;
+  padding-top: 20px;
+
+  .logo-container {
+    color: $black;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > p {
+      font-family: "Oxygen", sans-serif;
+      margin-left: 10px;
+      font-size: 29px;
+    }
+  }
+
+  .below-footer {
+    background-color: $textGrey;
+    color: $black;
+    padding: 10px;
+    text-align: center;
+    line-height: 1.6;
+
+    .mail-links {
+      color: $black;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .contact-links {
+      color: $black;
+      text-decoration: none;
+      padding: 5px;
+
+      &:hover{
+        background-color: var(--orange);
+        color: var(--white);
+        text-shadow: 2px 2px 2px var(--orange);
+        text-decoration: none;
+        border-radius: 20px;
+      }
+    }
+  }
+}

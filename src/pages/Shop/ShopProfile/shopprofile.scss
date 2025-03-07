@@ -1,0 +1,168 @@
+@import "../../../styles/utils.scss";
+
+.shop-page {
+    width: 100%;
+    padding: 1rem;
+    height: calc(100vh - $navbar-height);
+    overflow-y: auto;
+  
+    .single-shop-container {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+  
+      .shop-images-section {
+        // border: $border;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+  
+        .full-size-image {
+          width: 90%;
+          height: 25rem;
+          object-fit: cover;
+          border-radius: 10px;
+          margin-bottom: 1rem;
+        }
+  
+        .image-carousels {
+          // border: $border;
+          width: 90%;
+        }
+  
+        > svg {
+          position: absolute;
+          top: 6%;
+          left: 13%;
+          cursor: pointer;
+          background-color: rgba(255, 255, 255, 0.3);
+          padding: 0.7rem;
+          width: 3rem;
+          height: 3rem;
+          border-radius: 10px;
+        }
+  
+        .share-footer {
+          display: flex;
+          width: 90%;
+          margin: 2rem auto 1rem auto;
+          align-items: center;
+          gap: 1.5rem;
+  
+          .share-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+  
+            > p {
+              font-size: 1.1rem;
+            }
+          }
+  
+          .share-handles {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+  
+            svg {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+  
+      .pet-details-section {
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        position: relative;
+  
+        .rating-badge {
+          color: $white;
+          background-color: $color-blue-700;
+          width: max-content;
+          position: absolute;
+          height: 2rem;
+          right: 7%;
+        }
+  
+        > h2 {
+          font-size: 1.6rem;
+          font-weight: 500;
+          margin-bottom: 2rem;
+        }
+  
+        .details-row {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          align-items: flex-start;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid #e1e4e6;
+          margin-bottom: 1rem;
+          > p {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.25rem;
+          }
+        }
+  
+        .about-row {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid #e1e4e6;
+          margin-bottom: 1rem;
+  
+          > p {
+            width: 100%;
+            font-size: 0.9rem;
+            line-height: 1.25rem;
+          }
+  
+          .detail-badge {
+            color: $white;
+            background-color: $color-blue-700;
+            width: max-content;
+            height: 2rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+          }
+        }
+      }
+    }
+  
+    .shop-pets{
+      width: 90%;
+      margin: 2rem auto 3rem auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+       >p{
+          font-size: 0.9rem;
+          font-weight: 400;
+       }
+  
+       >h2{
+          font-size: 1.3rem;
+          font-weight: 500;
+          color: $primary-color;
+          margin-bottom: 0.5rem;
+  
+      }
+  
+      .view-all-badge{
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+      }
+    }
+  }
