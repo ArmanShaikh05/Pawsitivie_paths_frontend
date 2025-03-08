@@ -1029,7 +1029,7 @@ const ShopProductsTable = ({ ShopProductData, forceUpdate }) => {
                     className="w-full mt-4"
                     onClick={handleEditPet}
                   >
-                    Edit Pet
+                    Edit Product
                   </Button>
                 </SheetClose>
               </SheetFooter>
@@ -1123,7 +1123,7 @@ const ShopProductsTable = ({ ShopProductData, forceUpdate }) => {
                   value={productName}
                   onChange={(e) => setProductName(e.target.value)}
                   className="col-span-3"
-                  placeholder="Pet name"
+                  placeholder="Product name"
                 />
               </div>
 
