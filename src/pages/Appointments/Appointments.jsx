@@ -3,7 +3,11 @@ import AppointmentCard from "@/components/Cards/AppointmentCard/AppointmentCard"
 import Loader from "@/components/Loader/Loader";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GET_SHOP_APPOINTMENTS, GET_USER_APPOINTMENTS } from "@/constants/routes";
+import {
+  GET_DOCTOR_APPOINTMENTS,
+  GET_SHOP_APPOINTMENTS,
+  GET_USER_APPOINTMENTS,
+} from "@/constants/routes";
 import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
 import { useSelector } from "react-redux";
@@ -15,7 +19,7 @@ const Appointments = () => {
   const [isFetchAppointments, setIsFetchingAppointents] = useState(false);
   const [newAppointments, setNewAppointments] = useState([]);
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-  const [previousAppointments,setPreviousAppointments] = useState([])
+  const [previousAppointments, setPreviousAppointments] = useState([]);
 
   const [reducerValue, forceUpadte] = useReducer((x) => x + 1, 0);
 
@@ -29,10 +33,12 @@ const Appointments = () => {
           setNewAppointments(
             data.data.filter((appointment) => appointment.isScheduled === false)
           );
-          setPreviousAppointments(data.data.filter((appointment) => {
-            const appointmentDate = new Date(appointment.appointmentDate);
-            return appointment.isScheduled === true && appointmentDate < now;
-          }))
+          setPreviousAppointments(
+            data.data.filter((appointment) => {
+              const appointmentDate = new Date(appointment.appointmentDate);
+              return appointment.isScheduled === true && appointmentDate < now;
+            })
+          );
           setUpcomingAppointments(
             data.data.filter((appointment) => {
               const appointmentDate = new Date(appointment.appointmentDate);
@@ -44,16 +50,44 @@ const Appointments = () => {
         .finally(() => {
           setIsFetchingAppointents(false);
         });
-    } else{
+    } else if (role && role === "petDoctor") {
+      setIsFetchingAppointents(true);
+      axios
+        .get(`${GET_DOCTOR_APPOINTMENTS}?doctorId=${userId}`)
+        .then(({ data }) => {
+          const now = new Date();
+          setNewAppointments(
+            data.data.filter((appointment) => appointment.isScheduled === false)
+          );
+          setPreviousAppointments(
+            data.data.filter((appointment) => {
+              const appointmentDate = new Date(appointment.appointmentDate);
+              return appointment.isScheduled === true && appointmentDate < now;
+            })
+          );
+          setUpcomingAppointments(
+            data.data.filter((appointment) => {
+              const appointmentDate = new Date(appointment.appointmentDate);
+              return appointment.isScheduled === true && appointmentDate > now;
+            })
+          );
+        })
+        .catch((err) => console.log(err))
+        .finally(() => {
+          setIsFetchingAppointents(false);
+        });
+    } else {
       setIsFetchingAppointents(true);
       axios
         .get(`${GET_USER_APPOINTMENTS}?userId=${userId}`)
         .then(({ data }) => {
           const now = new Date();
-          setPreviousAppointments(data.data.filter((appointment) => {
-            const appointmentDate = new Date(appointment.appointmentDate);
-            return appointment.isScheduled === true && appointmentDate < now;
-          }))
+          setPreviousAppointments(
+            data.data.filter((appointment) => {
+              const appointmentDate = new Date(appointment.appointmentDate);
+              return appointment.isScheduled === true && appointmentDate < now;
+            })
+          );
           setUpcomingAppointments(
             data.data.filter((appointment) => {
               const appointmentDate = new Date(appointment.appointmentDate);
@@ -66,7 +100,7 @@ const Appointments = () => {
           setIsFetchingAppointents(false);
         });
     }
-  }, [role, userId,reducerValue]);
+  }, [role, userId, reducerValue]);
 
   return (
     <div className="p-6 overflow-y-hidden">
@@ -79,7 +113,7 @@ const Appointments = () => {
             <TabsList>
               <TabsTrigger value="previous">Previous</TabsTrigger>
               <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-              {role && role === "shopOwner" && (
+              {role && role !== "user" && (
                 <TabsTrigger value="new">New Appointents</TabsTrigger>
               )}
             </TabsList>
@@ -135,7 +169,7 @@ const Appointments = () => {
               </ScrollArea>
             </TabsContent>
 
-            {role && role === "shopOwner" && (
+            {role && role !== "user" && (
               <TabsContent value="new">
                 <ScrollArea className="h-[35rem]">
                   <div className="flex flex-col gap-2">

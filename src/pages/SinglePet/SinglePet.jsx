@@ -385,13 +385,6 @@ const SinglePet = () => {
             </Badge>
           )}
 
-          {/* <div className="details-row">
-            <p>
-              Pet Id <span>:</span>
-            </p>
-            <p>#1212125</p>
-          </div> */}
-
           {data?.petGender && data?.petGender !== "" && (
             <div className="details-row capitalize">
               <p>

@@ -35,45 +35,69 @@ const UserEvents = () => {
 
   useEffect(() => {
     setIsFetchingEvents(true);
+
     axios
       .get(`${GET_EVENTS}?role=${role}&userId=${userId}`)
       .then(({ data }) => {
+        const events = data?.data || [];
+        let formattedEvents = [];
 
-        let formattedEvents
-
-         if(role === "shopOwner"){
-          formattedEvents = data.data.map((event, index) => ({
+        if (role === "shopOwner") {
+          formattedEvents = events.map((event, index) => ({
             Id: index + 1,
             Subject: event?.subject,
             StartTime: new Date(event?.startTime),
             EndTime: new Date(event?.endTime),
             Description: event?.description || "",
             IsReadOnly: true,
-            PetImg:event?.resources?.petId?.petImages?.[0]?.url,
-            clientName:event?.clientDetails?.firstName + " " + event?.clientDetails?.lastName,
-            clientEmail:event?.clientDetails?.email,
-            clientPhoneNo:event?.clientDetails?.phoneNo,
-            status:event?.status,
-
+            PetImg: event?.resources?.petId?.petImages?.[0]?.url,
+            clientName: `${event?.clientDetails?.firstName} ${event?.clientDetails?.lastName}`,
+            clientEmail: event?.clientDetails?.email,
+            clientPhoneNo: event?.clientDetails?.phoneNo,
+            status: event?.status,
           }));
-         }else{
-          formattedEvents = data.data.map((event, index) => ({
+        } else if (role === "petDoctor") {
+          formattedEvents = events.map((event, index) => ({
             Id: index + 1,
             Subject: event?.subject,
             StartTime: new Date(event?.startTime),
             EndTime: new Date(event?.endTime),
             Description: event?.description || "",
             IsReadOnly: true,
-            PetImg:event?.resources?.petId?.petImages?.[0]?.url,
-            Location:event?.shopRecieverId?.shopAddress,
-            ShopName:event?.shopRecieverId?.shopName,
-            status:event?.status,
+            PetImg: event?.clientDetails?.profilePic,
+            clientName: `${event?.clientDetails?.firstName} ${event?.clientDetails?.lastName}`,
+            clientEmail: event?.clientDetails?.email,
+            clientPhoneNo: event?.clientDetails?.phoneNo,
+            status: event?.status,
           }));
-         }
+        } else {
+          formattedEvents = events.map((event, index) => ({
+            Id: index + 1,
+            Subject: event?.subject,
+            StartTime: new Date(event?.startTime),
+            EndTime: new Date(event?.endTime),
+            Description: event?.description || "",
+            IsReadOnly: true,
+            PetImg:
+              event?.subject === "Pet Doctor"
+                ? event?.doctorId?.profilePic?.url
+                : event?.resources?.petId?.petImages?.[0]?.url,
+            Location:
+              event?.subject === "Pet Doctor"
+                ? event?.doctorId?.address + ", " + event?.doctorId?.city + ", "+event?.doctorId?.state
+                : event?.shopRecieverId?.shopAddress,
+            ShopName: event?.shopRecieverId?.shopName,
+            status: event?.status,
+          }));
+        }
 
-        setEventData(formattedEvents); // ✅ Updating state
+        setEventData((prevData) =>
+          JSON.stringify(prevData) !== JSON.stringify(formattedEvents)
+            ? formattedEvents
+            : prevData
+        );
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.error("Error fetching events:", err))
       .finally(() => setIsFetchingEvents(false));
   }, [role, userId]);
 
@@ -89,7 +113,9 @@ const UserEvents = () => {
             eventSettings={{
               dataSource: eventData,
               enableTooltip: true,
-              tooltipTemplate: (event) => <EventTooltip event={event} role={role} />,
+              tooltipTemplate: (event) => (
+                <EventTooltip event={event} role={role} />
+              ),
             }}
             readonly={true}
             selectedDate={selectedDate}

@@ -91,8 +91,8 @@ const Navbar = () => {
         }
       )
       .then(({ data }) => {
-        if (data.data.notifications) {
-          dispatch(setNotificationData(data.data.notifications || []));
+        if (data.data?.notifications) {
+          dispatch(setNotificationData(data.data?.notifications || []));
         }
         dispatch(setUserDetails(data.data));
         dispatch(setCartItems(data.data?.cartItems || []));
@@ -149,7 +149,7 @@ const Navbar = () => {
           </SheetContent>
         </Sheet>
 
-        {role && role !== "shopOwner" && (
+        {role && role === "user" && (
           <div className="relative">
             <FaCartShopping
               onClick={() => navigate("/cart")}

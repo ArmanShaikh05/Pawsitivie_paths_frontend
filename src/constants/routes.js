@@ -104,6 +104,8 @@ export const CREATE_SHOP_APPOINTMENT = `${import.meta.env.VITE_SERVER}/api/v1/ap
 
 export const GET_SHOP_APPOINTMENTS = `${import.meta.env.VITE_SERVER}/api/v1/appointments/get-shop-appointments`
 
+export const GET_DOCTOR_APPOINTMENTS = `${import.meta.env.VITE_SERVER}/api/v1/appointments/get-doctor-appointments`
+
 export const GET_USER_APPOINTMENTS = `${import.meta.env.VITE_SERVER}/api/v1/appointments/get-user-appointments`
 
 export const GET_EVENTS = `${import.meta.env.VITE_SERVER}/api/v1/appointments/get-user-events`
@@ -167,3 +169,16 @@ export const GET_DOCTOR_DETAILS = `${import.meta.env.VITE_SERVER}/api/v1/doctor/
 export const EDIT_DOCTOR_DETAILS = `${import.meta.env.VITE_SERVER}/api/v1/doctor/edit-doctor-details`
 
 export const CHECK_PET_DOCTOR_USERID_AVAILALE = `${import.meta.env.VITE_SERVER}/api/v1/doctor/check-userid`
+
+export const GET_ALL_DOCTORS = `${import.meta.env.VITE_SERVER}/api/v1/doctor/get-all-doctors`
+
+export const GET_DOCTOR_DETAILS_BY_USERID = `${import.meta.env.VITE_SERVER}/api/v1/doctor/get-doctor-detail-by-userId`
+
+export const CREATE_DOCTOR_APPOINTMENT = `${import.meta.env.VITE_SERVER}/api/v1/doctor/create-doctor-appointment`
+
+export const GET_DOCTOR_CHART_DATA = `${import.meta.env.VITE_SERVER}/api/v1/doctor/get-doctor-chart-details`
+
+export const POST_DOCTOR_REVIEW = `${import.meta.env.VITE_SERVER}/api/v1/doctor/post-review`
+
+export const POST_SHOP_REVIEW = `${import.meta.env.VITE_SERVER}/api/v1/shop/post-review`
+

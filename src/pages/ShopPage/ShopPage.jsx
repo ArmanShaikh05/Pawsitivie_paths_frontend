@@ -23,7 +23,12 @@ import Loader from "@/components/Loader/Loader";
 import ShopTestimonial from "@/components/ShopTestimonial/ShopTestimonial";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { DISLIKE_SHOP, GET_SHOP_DETAILS_BY_USERID, LIKE_SHOP } from "@/constants/routes";
+import {
+  DISLIKE_SHOP,
+  GET_SHOP_DETAILS_BY_USERID,
+  LIKE_SHOP,
+  POST_SHOP_REVIEW,
+} from "@/constants/routes";
 import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,17 +37,35 @@ import "./shoppage.scss";
 import { useToast } from "@/hooks/use-toast";
 import { setUserDetails } from "@/redux/reducers/userDetailsSlice";
 import { useGlobalVariables } from "@/utils/useContext";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const ShopPage = () => {
   const { shopId } = useParams();
   const userData = useSelector((state) => state.userDetailReducer.userData);
-  const [data,setData] = useState()
-  const [loading,setLoading] = useState(false)
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
   const [reducerValue, forceUpdate] = useReducer((x) => x + 1, 0);
-  const {toast} = useToast()
+  const { toast } = useToast();
   const [liked, setLiked] = useState(false);
-  const {favouriteShopsForceUpdate} = useGlobalVariables()
-  const dispatch = useDispatch()
+  const { favouriteShopsForceUpdate } = useGlobalVariables();
+  const dispatch = useDispatch();
 
   const [mainImage, setMainImage] = useState("");
   const fallbackText = data?.shopName
@@ -50,22 +73,40 @@ const ShopPage = () => {
     .map((name) => name[0])
     .join("");
   const [isCopied, setIsCopied] = useState(false);
-  const textToCopy = window.location.href
+  const textToCopy = window.location.href;
 
-  useEffect(()=>{
-    setLoading(true)
-    const cancelToken = axios.CancelToken.source()
-    axios.get(`${GET_SHOP_DETAILS_BY_USERID}?shopId=${shopId}`,{cancelToken:cancelToken.token}).then(({data})=>{
-      setData(data.data)
-      setLoading(false)
-      setLiked(userData?.whishlistShops.includes(data.data?._id) ? true : false)
-    }).catch((err)=>{
-      console.log(err)
-      setLoading(false)
-    })
-  },[shopId, reducerValue])
+  const [openDialog, setDialogOpen] = useState(false);
+  const [rating, setRating] = useState();
+  const [review, setReview] = useState("");
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewDesc, setReviewDesc] = useState("");
+  const [isPostingReview, setIsPostingReview] = useState(false);
 
-  
+  const [reviewsData, setReviewsData] = useState();
+
+  const [overallReview, setOverallReview] = useState("")
+
+  useEffect(() => {
+    setLoading(true);
+    const cancelToken = axios.CancelToken.source();
+    axios
+      .get(`${GET_SHOP_DETAILS_BY_USERID}?shopId=${shopId}`, {
+        cancelToken: cancelToken.token,
+      })
+      .then(({ data }) => {
+        setData(data.data);
+        setReviewsData(data.data?.reviews);
+        setOverallReview(data?.overallReview)
+        setLoading(false);
+        setLiked(
+          userData?.whishlistShops.includes(data.data?._id) ? true : false
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, [shopId, reducerValue]);
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(textToCopy).then(() => {
@@ -87,7 +128,7 @@ const ShopPage = () => {
         dispatch(setUserDetails(wishlistData.data));
         setLiked(true);
         forceUpdate();
-        favouriteShopsForceUpdate()
+        favouriteShopsForceUpdate();
         toast({
           title: "Shop added to whishlist",
         });
@@ -97,7 +138,7 @@ const ShopPage = () => {
       console.log(error);
     }
   };
-  
+
   const removeShopFromWhishlist = async () => {
     try {
       const cancelToken = axios.CancelToken.source();
@@ -111,13 +152,64 @@ const ShopPage = () => {
         dispatch(setUserDetails(wishlistData.data));
         setLiked(false);
         forceUpdate();
-        favouriteShopsForceUpdate()
+        favouriteShopsForceUpdate();
         toast({
           title: "Shop removed from whishlist",
         });
       }
     } catch (error) {
       if (axios.isCancel(error)) return;
+    }
+  };
+
+  const postReview = async () => {
+    if (!rating) {
+      return toast({
+        title: "Please select a rating",
+        variant: "destructive",
+      });
+    } else if (reviewTitle === "") {
+      return toast({
+        title: "Please enter a review title",
+        variant: "destructive",
+      });
+    } else if (reviewDesc === "") {
+      return toast({
+        title: "Please enter a review description",
+        variant: "destructive",
+      });
+    } else {
+      const reviewData = {
+        userId: userData?._id,
+        shopOwnerId: data?._id,
+        rating,
+        reviewTitle,
+        reviewDesc,
+        review,
+      };
+      const cancelToken = axios.CancelToken.source();
+      try {
+        setIsPostingReview(true);
+        const response = await axios.post(POST_SHOP_REVIEW, reviewData, {
+          cancelToken: cancelToken.token,
+        });
+        if (response.status === 200) {
+          setDialogOpen(false);
+          toast({
+            title: "Review posted successfully",
+          });
+          setReview("");
+          setReviewTitle("");
+          setReviewDesc("");
+          setRating();
+          forceUpdate();
+        }
+      } catch (error) {
+        if (axios.isCancel(error)) return;
+        console.log(error);
+      } finally {
+        setIsPostingReview(false);
+      }
     }
   };
 
@@ -199,11 +291,95 @@ const ShopPage = () => {
                   <FaLink size={22} />
                   {isCopied && <span className="tooltip">Copied!</span>}
                 </div>
-                
               </div>
-              <Button variant="primary" className="self-end">
-                Contact Shop
+              <Button
+                variant="primary"
+                className="h-[3rem]"
+                onClick={() => setDialogOpen(true)}
+              >
+                Post Review
               </Button>
+              {openDialog && (
+                <Dialog open={openDialog} onOpenChange={setDialogOpen}>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Write your review</DialogTitle>
+                      <DialogDescription>
+                        Your review will be shown to other users, so make sure
+                        to use appropriate words..
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="rating">Rating</Label>
+                        <Select
+                          id="rating"
+                          onValueChange={(value) => {
+                            setRating(value);
+                            if (value === 1) {
+                              return setReview("Very Bad");
+                            } else if (value === 2) {
+                              return setReview("Bad");
+                            } else if (value === 3) {
+                              return setReview("Good");
+                            } else if (value === 4) {
+                              return setReview("Very Good");
+                            } else {
+                              return setReview("Excellent");
+                            }
+                          }}
+                        >
+                          <SelectTrigger className="w-[250px]">
+                            <SelectValue placeholder="Ratings" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1">Very Bad</SelectItem>
+                            <SelectItem value="2">Bad</SelectItem>
+                            <SelectItem value="3">Good</SelectItem>
+                            <SelectItem value="4">Very Good</SelectItem>
+                            <SelectItem value="5">Excellent</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="title">Title</Label>
+                        <Input
+                          id="title"
+                          placeholder="Review"
+                          className="col-span-3"
+                          value={reviewTitle}
+                          onChange={(e) => setReviewTitle(e.target.value)}
+                        />
+                      </div>
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Label
+                          htmlFor="description"
+                          className="text-right self-start"
+                        >
+                          Description
+                        </Label>
+                        <Textarea
+                          id="description"
+                          placeholder="Describe your review"
+                          className="col-span-3"
+                          value={reviewDesc}
+                          onChange={(e) => setReviewDesc(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button
+                        type="submit"
+                        variant="primary"
+                        onClick={postReview}
+                        disabled={isPostingReview}
+                      >
+                        Post Review
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              )}
             </div>
           </div>
         </div>
@@ -213,7 +389,7 @@ const ShopPage = () => {
           <h2>{data?.shopName}</h2>
 
           <Badge className="rating-badge" variant="default">
-            3.8 / 5
+            {overallReview} / 5
           </Badge>
 
           {data?.shopDescription && data?.shopDescription !== "" && (
@@ -295,85 +471,63 @@ const ShopPage = () => {
         </div>
       </div>
 
-      {(data?.shopPets?.length > 0) && (
+      {data?.shopPets?.length > 0 && (
         <div className="shop-pets">
-        <h2>Shop Pets</h2>
-        <div className="shop-carousels my-8">
-          <Carousel
-            opts={{
-              align: "start",
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
-              {data?.shopPets?.map((item, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
-                  <PetCard petData={item} path={`/pets/${item._id}`} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
+          <h2>Shop Pets</h2>
+          <div className="shop-carousels my-8">
+            <Carousel
+              opts={{
+                align: "start",
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {data?.shopPets?.map((item, index) => (
+                  <CarouselItem
+                    key={index}
+                    className="md:basis-1/2 lg:basis-1/4"
+                  >
+                    <PetCard petData={item} path={`/pets/${item._id}`} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          </div>
 
-        <Button className="view-all-badge" variant="primary">
-          View All
-        </Button>
-      </div>
+          <Button className="view-all-badge" variant="primary">
+            View All
+          </Button>
+        </div>
       )}
 
-      {/* <div className="shop-pets">
-        <h2>Pets Accessories</h2>
-        <div className="shop-carousels mt-8 mb-8">
-          <Carousel
-            opts={{
-              align: "start",
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
-              {Array.from({ length: 7 }).map((_, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
-                  <ProductCard path="/market/sadsa" />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
+      {reviewsData?.length > 0 && (
+        <div className="shop-pets">
+          <h2>Customer Reviews</h2>
+          <div className="shop-carousels mt-8 mb-8">
+            <Carousel
+              opts={{
+                align: "start",
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {reviewsData.map((review, index) => (
+                  <CarouselItem
+                    key={index}
+                    className="md:basis-1/2 lg:basis-1/4"
+                  >
+                    <ShopTestimonial reviewData={review} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          </div>
         </div>
-
-        <Button className="view-all-badge" variant="primary">
-          View All
-        </Button>
-      </div> */}
-
-      <div className="shop-pets">
-        <h2>Customer Reviews</h2>
-        <div className="shop-carousels mt-8 mb-8">
-          <Carousel
-            opts={{
-              align: "start",
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
-              {Array.from({ length: 7 }).map((_, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
-                  <ShopTestimonial />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-
-        {/* <Button className="view-all-badge" variant="primary">
-          View All
-        </Button> */}
-      </div>
+      )}
     </div>
   );
 };

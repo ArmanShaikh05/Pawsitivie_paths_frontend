@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import AppointmentBadge from "@/components/AppointmentSchedular/AppointmentBadge";
 import { AlertDialogHeader } from "@/components/ui/alert-dialog";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,12 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  ACCEPT_APPOINTMENT,
-  APPOINTMENT_COMPLETED,
-  APPOINTMENT_FAILED,
-  REJECT_APPOINTMENT,
-} from "@/constants/routes";
+import { ACCEPT_APPOINTMENT, APPOINTMENT_COMPLETED, APPOINTMENT_FAILED, REJECT_APPOINTMENT } from "@/constants/routes";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { Check, X } from "lucide-react";
@@ -24,7 +18,7 @@ import moment from "moment";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AppointmentCard = ({ mode, appointment, role, refresh }) => {
+const DoctorAppointmentCard = ({ mode, appointment, role, refresh }) => {
   const [acceptingAppointment, setIsAcceptingAppointment] = useState(false);
   const [rejectingAppointment, setIsRejectingAppointment] = useState(false);
   const [completingAppointment, setIsCompletingAppointment] = useState(false);
@@ -130,6 +124,7 @@ const AppointmentCard = ({ mode, appointment, role, refresh }) => {
     }
   };
 
+
   const viewInCalendar = (date, eventId) => {
     navigate(`/events/${eventId}?eventDate=${date}`);
   };
@@ -137,61 +132,18 @@ const AppointmentCard = ({ mode, appointment, role, refresh }) => {
   return (
     <div className="w-full mx-auto p-6 bg-white border rounded-2xl shadow-md">
       <div className="flex items-center gap-6">
+        {console.log(appointment)}
         <div className="w-24 h-24 rounded-lg overflow-hidden">
-          {role === "petDoctor" ? (
-            <Avatar className="w-full h-full  rounded-lg">
-              <AvatarImage
-                className="object-cover"
-                src={appointment?.clientDetails?.profilePic}
-              />
-              <AvatarFallback className="text-black text-[5rem]">
-                {(
-                  appointment?.clientDetails?.firstName +
-                  " " +
-                  appointment?.clientDetails?.lastName
-                )
-                  .split(" ")
-                  .map((name) => name[0])
-                  .join("")}
-              </AvatarFallback>
-            </Avatar>
-          ) : appointment?.subject === "Pet Doctor" ? (
-            <Avatar className="w-full h-full  rounded-lg">
-              <AvatarImage
-                className="object-cover"
-                src={appointment?.doctorId?.profilePic?.url}
-              />
-              <AvatarFallback className="text-black text-[5rem]">
-                {appointment?.doctorId?.userName
-                  .split(" ")
-                  .map((name) => name[0])
-                  .join("")}
-              </AvatarFallback>
-            </Avatar>
-          ) : (
-            <img
-              src={appointment?.resources.petId?.petImages?.[0]?.url}
-              alt="Pet"
-              className="object-cover w-full h-full"
-            />
-          )}
+          <img
+            src={appointment?.resources.petId?.petImages?.[0]?.url}
+            alt="Pet"
+            className="object-cover w-full h-full"
+          />
         </div>
         <div className="flex-1">
-          {role && role === "petDoctor" ? (
-            <h3 className="text-lg font-medium">
-              {appointment?.clientDetails?.firstName +
-                " " +
-                appointment?.clientDetails?.lastName}
-            </h3>
-          ) : appointment?.subject === "Pet Doctor" ? (
-            <h3 className="text-lg font-medium">
-              {appointment?.doctorId?.userName}
-            </h3>
-          ) : (
-            <h3 className="text-lg font-medium">
-              {appointment?.resources.petId?.petName}
-            </h3>
-          )}
+          <h3 className="text-lg font-medium">
+            {appointment?.resources.petId?.petName}
+          </h3>
           {role && role === "shopOwner" ? (
             <p className="text-sm text-gray-500">
               {appointment?.clientDetails.firstName +
@@ -200,37 +152,18 @@ const AppointmentCard = ({ mode, appointment, role, refresh }) => {
                 " | " +
                 appointment?.clientDetails.phoneNo}
             </p>
-          ) : role === "user" ? (
-            <p className="text-sm text-gray-500">
-              {appointment?.shopRecieverId?.shopName}
-            </p>
           ) : (
             <p className="text-sm text-gray-500">
-              {/* {appointment?.shopRecieverId?.shopName} */}
+              {appointment?.shopRecieverId?.shopName}
             </p>
           )}
           <p className="text-sm text-gray-500 mt-2">
             <span className="font-medium">Subject:</span> {appointment?.subject}
           </p>
-          {role && role !== "user" ? (
-            <div>
-              <p className="text-sm text-gray-500 mt-1">
-                <span className="font-medium">Client email:</span>{" "}
-                {appointment?.clientDetails.email}{" "}
-              </p>
-              <p className="text-sm text-gray-500 mt-1">
-                <span className="font-medium">Client phone:</span>{" "}
-                {appointment?.clientDetails.phoneNo}{" "}
-              </p>
-            </div>
-          ) : appointment?.subject === "Pet Doctor" ? (
+          {role && role === "shopOwner" ? (
             <p className="text-sm text-gray-500 mt-1">
-              <span className="font-medium">Address:</span>{" "}
-              {appointment?.doctorId?.address +
-                ", " +
-                appointment?.doctorId?.city +
-                ", " +
-                appointment?.doctorId?.state}
+              <span className="font-medium">Client email:</span>{" "}
+              {appointment?.clientDetails.email}{" "}
             </p>
           ) : (
             <p className="text-sm text-gray-500 mt-1">
@@ -265,19 +198,11 @@ const AppointmentCard = ({ mode, appointment, role, refresh }) => {
             <AppointmentBadge status={appointment?.status} />
             {role === "shopOwner" && appointment?.status === "pending" ? (
               <div className="flex gap-4">
-                <Button
-                  onClick={() => failedAppointment()}
-                  disabled={failingAppointment}
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-                >
+                <Button onClick={()=>failedAppointment()} disabled={failingAppointment} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
                   Failed
                 </Button>
 
-                <Button
-                  onClick={() => completeAppointment()}
-                  disabled={completingAppointment}
-                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
-                >
+                <Button onClick={()=>completeAppointment()} disabled={completingAppointment} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
                   Completed
                 </Button>
               </div>
@@ -355,4 +280,4 @@ const AppointmentCard = ({ mode, appointment, role, refresh }) => {
   );
 };
 
-export default AppointmentCard;
+export default DoctorAppointmentCard;
