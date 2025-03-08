@@ -80,7 +80,7 @@ const ProductCard = ({ path = "", productData, forceUpdate }) => {
           alt=""
           onClick={() => navigate(path)}
         />
-        <p className="mt-5 text-sm text-left w-full">
+        <p className="mt-5 text-sm text-left w-full clamp-text h-[5rem]">
           {productData?.productDescription}
         </p>
         {liked ? (
