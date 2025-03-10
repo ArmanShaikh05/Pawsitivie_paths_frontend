@@ -1,245 +1,155 @@
-import { Home } from "lucide-react";
-
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarRail,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaHome, FaShoppingCart } from "react-icons/fa";
 import { FaHeart, FaUserDoctor } from "react-icons/fa6";
+import { TbShoppingCartDollar } from "react-icons/tb";
 import { MdEventAvailable, MdForum, MdOutlinePets } from "react-icons/md";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { CgProfile } from "react-icons/cg";
-import { CiLogout } from "react-icons/ci";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "../ui/alert-dialog";
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { GET_SHOP_DETAILS, GET_USER_DETAILS } from "@/constants/routes";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth, useGlobalVariables } from "@/utils/useContext";
-import { useToast } from "@/hooks/use-toast";
-import { useDispatch } from "react-redux";
-import {
-  setCartItems,
-  setUserDetails,
-} from "@/redux/reducers/userDetailsSlice";
+import { LuCalendarClock } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import "./sidebarNew.scss";
 
-// Menu items.
-const Useritems = [
-  {
-    title: "Home",
-    url: "/home",
-    icon: Home,
-  },
-  {
-    title: "Pets",
-    url: "/pets",
-    icon: MdOutlinePets,
-  },
-  {
-    title: "Wishlist",
-    url: "/whishlist/pets",
-    icon: FaHeart,
-  },
-  {
-    title: "Events",
-    url: "#",
-    icon: MdEventAvailable,
-  },
-  {
-    title: "Pet Doctor",
-    url: "#",
-    icon: FaUserDoctor,
-  },
-  {
-    title: "Marketplace",
-    url: "/market",
-    icon: FaShoppingCart,
-  },
-  {
-    title: "Forum",
-    url: "#",
-    icon: MdForum,
-  },
-];
-
-const SidebarNew = () => {
+const SideBarNew = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
-  const { toast } = useToast();
-  const { currentUser } = useAuth();
-  const dispatch = useDispatch();
-  const [userData, setUserData] = useState();
-  const { reducerValue } = useGlobalVariables();
-  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
-
-  const role = window.localStorage.getItem("pet-role");
-  const fallbackText = useRef();
-
-  const handleLogout = () => {
-    logout()
-      .then(() => {
-        navigate("/");
-        window.localStorage.removeItem("pet-role");
-        toast({
-          title: "Logged out successfully",
-        });
-      })
-      .catch((err) => {
-        toast({
-          variant: "destructive",
-          title: err.message,
-        });
-      });
-  };
-
-  useEffect(() => {
-    const cancelToken = axios.CancelToken.source();
-    axios
-      .get(
-        `${role === "user" ? GET_USER_DETAILS : GET_SHOP_DETAILS}/${
-          currentUser.uid
-        }`,
-        {
-          cancelToken: cancelToken.token,
-        }
-      )
-      .then(({ data }) => {
-        dispatch(setUserDetails(data.data));
-        dispatch(setCartItems(data.data?.cartItems || []));
-        setUserData(data.data);
-        fallbackText.current = data.data?.userName
-          ?.split(" ")
-          .map((name) => name[0])
-          .join("");
-      })
-      .catch((err) => {
-        if (axios.isCancel(err)) return;
-        console.log(err);
-      });
-  }, [currentUser.uid, dispatch, reducerValue, role]);
+  const path = window.location.pathname.split("/")[1];
+  const role = useSelector((state) => state.userDetailReducer.userData?.role);
+  const userId = useSelector((state) => state.userDetailReducer.userData?._id);
+  const [isOpen, setIsOpen] = useState(false); // Toggle sidebar state
 
   return (
-    <Sidebar collapsible="icon">
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarTrigger />
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <Link className="w-full flex items-center gap-2" to={"/home"}>
-                  <img className="h-10 w-10 object-contain" src="/logo.png" />
-                  <span>Pawsitive Path</span>
-                </Link>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+    <div className={`sidebar-container ${isOpen ? "open" : "collapsed"}`}>
+      <button className="toggle-btn md:hidden" onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? "«" : "»"}
+      </button>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {Useritems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
+      <div
+        className={`sidebar-box ${path === "home" ? "active-sidebar" : ""}`}
+        onClick={() => navigate("/home")}
+      >
+        <FaHome />
+        {isOpen && <p>Home</p>}
+      </div>
 
-      <SidebarFooter>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className="profile-container">
-              <Avatar className="profile-image">
-                <AvatarImage
-                  className="object-cover"
-                  src={
-                    role === "shopOwner"
-                      ? userData?.shopImages[0]?.url
-                      : userData?.profilePic?.url
-                  }
-                />
-                <AvatarFallback className="text-black">
-                  {fallbackText.current}
-                </AvatarFallback>
-              </Avatar>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem asChild>
-              <div
-                className="dialog-item flex gap-2 h-[3rem] cursor-pointer"
-                onClick={() => navigate(`/profile/${userData?.userId}`)}
-              >
-                <CgProfile className="w-5 h-5" />
-                <p>Profile</p>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <div
-                className="dialog-item flex gap-2 h-[3rem] cursor-pointer"
-                onClick={() => setShowLogoutDialog(true)}
-              >
-                <CiLogout className="w-5 h-5" />
-                <p>Logout</p>
-              </div>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      {role === "user" && (
+        <div
+          className={`sidebar-box ${path === "pets" ? "active-sidebar" : ""}`}
+          onClick={() => navigate("/pets")}
+        >
+          <MdOutlinePets />
+          {isOpen && <p>Pets</p>}
+        </div>
+      )}
 
-        <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleLogout}>
-                Log Out
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
+      {role === "shopOwner" && (
+        <>
+          <div
+            className={`sidebar-box ${
+              path === "shop-pets" ? "active-sidebar" : ""
+            }`}
+            onClick={() => navigate("/shop-pets")}
+          >
+            <MdOutlinePets />
+            {isOpen && <p>Pets</p>}
+          </div>
+
+          <div
+            className={`sidebar-box ${
+              path === "shop-items" ? "active-sidebar" : ""
+            }`}
+            onClick={() => navigate("/shop-items")}
+          >
+            <FaShoppingCart />
+            {isOpen && <p>Products</p>}
+          </div>
+
+          <div
+            className={`sidebar-box ${
+              path === "shop-orders" ? "active-sidebar" : ""
+            }`}
+            onClick={() => navigate("/shop-orders")}
+          >
+            <TbShoppingCartDollar />
+            {isOpen && <p>Orders</p>}
+          </div>
+        </>
+      )}
+
+      {role === "user" && (
+        <>
+          <div
+            className={`sidebar-box ${
+              path === "whishlist" ? "active-sidebar" : ""
+            }`}
+            onClick={() => navigate("/whishlist/pets")}
+          >
+            <FaHeart />
+            {isOpen && <p>Wishlist</p>}
+          </div>
+
+          <div
+            className={`sidebar-box ${
+              path === "order-history" ? "active-sidebar" : ""
+            }`}
+            onClick={() => navigate("/order-history")}
+          >
+            <TbShoppingCartDollar />
+            {isOpen && <p>Orders</p>}
+          </div>
+        </>
+      )}
+
+      <div
+        className={`sidebar-box ${
+          path === "appointments" ? "active-sidebar" : ""
+        }`}
+        onClick={() => navigate(`/appointments/${userId}`)}
+      >
+        <LuCalendarClock />
+        {isOpen && <p>Appointments</p>}
+      </div>
+
+      <div
+        className={`sidebar-box ${path === "events" ? "active-sidebar" : ""}`}
+        onClick={() => navigate(`/events/${userId}`)}
+      >
+        <MdEventAvailable />
+        {isOpen && <p>Events</p>}
+      </div>
+
+      {role === "user" && (
+        <>
+          <div
+            className={`sidebar-box ${
+              path === "pet-doctors" ? "active-sidebar" : ""
+            }`}
+            onClick={() => navigate(`/pet-doctors`)}
+          >
+            <FaUserDoctor />
+            {isOpen && <p>Pet Doctor</p>}
+          </div>
+
+          <div
+            className={`sidebar-box ${
+              path === "market" ? "active-sidebar" : ""
+            }`}
+            onClick={() => navigate("/market")}
+          >
+            <FaShoppingCart />
+            {isOpen && <p>Marketplace</p>}
+          </div>
+
+          <div
+            className={`sidebar-box ${
+              path === "forum" ? "active-sidebar" : ""
+            }`}
+            onClick={() => navigate(`/forum`)}
+          >
+            <MdForum />
+            {isOpen && <p>Forum</p>}
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 
-export default SidebarNew;
+export default SideBarNew;

@@ -41,7 +41,6 @@
         font-weight: 500;
       }
     }
-
   }
 
   .pets-content-area {
@@ -83,7 +82,7 @@
         display: flex;
         flex-direction: column;
         padding-left: 1rem;
-        border-bottom: 1px solid #F0F2F4;
+        border-bottom: 1px solid #f0f2f4;
         padding-bottom: 1rem;
         width: 90%;
         margin: 1rem auto;
@@ -95,5 +94,47 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .pets-page-container .pets-content-area {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .pets-page-container .pets-content-area .pets-detail-box .pet-detail-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .pets-page-container .pets-category-box {
+    width: 98%;
+    margin: 0 auto;
+    border-radius: 0;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgb(211, 202, 202);
+    box-shadow: none;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .pets-page-container .pets-category-box .category > img {
+    width: 4rem;
+  }
+
+  .pets-page-container .pets-category-box .category > h3 {
+    font-size: 0.7rem;
+  }
+
+  .pets-page-container .pets-content-area .pets-detail-box .pet-detail-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .pets-page-container .pets-content-area .pets-detail-box .pet-search {
+    width: 75vw;
+    flex-direction: column;
   }
 }

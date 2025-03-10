@@ -216,11 +216,11 @@ const ProductPage = () => {
               orientation="vertical"
               className="w-full max-w-xs"
             >
-              <CarouselContent className="-mt-1 h-[500px]">
+              <CarouselContent className="-mt-1 h-[300px] md:h-[500px]">
                 {data?.productImages?.map((item, index) => (
                   <CarouselItem
                     key={index}
-                    className="md:basis-1/2 lg:basis-1/5"
+                    className="basis-1/4 lg:basis-1/5"
                   >
                     <div
                       className="p-1 cursor-pointer flex items-center justify-center "
@@ -241,7 +241,7 @@ const ProductPage = () => {
             <img
               src={mainImage || data?.productImages[0]?.url}
               alt="PetFood"
-              className="w-[25rem] h-[25rem] object-cover"
+              className=" w-[45vw] aspect-square md:w-[25rem] md:h-[25rem] object-cover"
             />
           </div>
         </div>
@@ -337,19 +337,19 @@ const ProductPage = () => {
           <p>{data?.productDescription}</p>
         </div>
         <div className="customer-reviews">
-          <div className="review-header w-full flex justify-between pr-4 mb-8">
+          <div className="review-header w-full flex max-[680px]:flex-col justify-between pr-4 mb-8">
             <h2 className={"h-3rem text-[1.3rem]  mb-4 font-[500]"}>
               Customer Reviews
             </h2>
-            <div className="flex gap-4">
+            <div className="flex gap-4 max-[500px]:gap-2">
               <Button variant="outline" onClick={() => setDialogOpen(true)}>
-                Write a review
+                Write review
               </Button>
               <Button
                 variant="primary"
                 onClick={() => navigate("product-reviews")}
               >
-                View all review
+                View all 
               </Button>
             </div>
             {openDialog && (

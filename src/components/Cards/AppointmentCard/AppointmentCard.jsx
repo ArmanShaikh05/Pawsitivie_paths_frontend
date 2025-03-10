@@ -136,8 +136,8 @@ const AppointmentCard = ({ mode, appointment, role, refresh }) => {
 
   return (
     <div className="w-full mx-auto p-6 bg-white border rounded-2xl shadow-md">
-      <div className="flex items-center gap-6">
-        <div className="w-24 h-24 rounded-lg overflow-hidden">
+      <div className="flex flex-col sm:flex-row items-center gap-6">
+        <div className="w-[15rem] h-[10rem] sm:w-24 sm:h-24 rounded-lg overflow-hidden">
           {role === "petDoctor" ? (
             <Avatar className="w-full h-full  rounded-lg">
               <AvatarImage
@@ -176,112 +176,132 @@ const AppointmentCard = ({ mode, appointment, role, refresh }) => {
             />
           )}
         </div>
-        <div className="flex-1">
-          {role && role === "petDoctor" ? (
-            <h3 className="text-lg font-medium">
-              {appointment?.clientDetails?.firstName +
-                " " +
-                appointment?.clientDetails?.lastName}
-            </h3>
-          ) : appointment?.subject === "Pet Doctor" ? (
-            <h3 className="text-lg font-medium">
-              {appointment?.doctorId?.userName}
-            </h3>
-          ) : (
-            <h3 className="text-lg font-medium">
-              {appointment?.resources.petId?.petName}
-            </h3>
-          )}
-          {role && role === "shopOwner" ? (
-            <p className="text-sm text-gray-500">
-              {appointment?.clientDetails.firstName +
-                " " +
-                appointment?.clientDetails.lastName +
-                " | " +
-                appointment?.clientDetails.phoneNo}
-            </p>
-          ) : role === "user" ? (
-            <p className="text-sm text-gray-500">
-              {appointment?.shopRecieverId?.shopName}
-            </p>
-          ) : (
-            <p className="text-sm text-gray-500">
-              {/* {appointment?.shopRecieverId?.shopName} */}
-            </p>
-          )}
-          <p className="text-sm text-gray-500 mt-2">
-            <span className="font-medium">Subject:</span> {appointment?.subject}
-          </p>
-          {role && role !== "user" ? (
-            <div>
-              <p className="text-sm text-gray-500 mt-1">
-                <span className="font-medium">Client email:</span>{" "}
-                {appointment?.clientDetails.email}{" "}
-              </p>
-              <p className="text-sm text-gray-500 mt-1">
-                <span className="font-medium">Client phone:</span>{" "}
-                {appointment?.clientDetails.phoneNo}{" "}
-              </p>
-            </div>
-          ) : appointment?.subject === "Pet Doctor" ? (
-            <p className="text-sm text-gray-500 mt-1">
-              <span className="font-medium">Address:</span>{" "}
-              {appointment?.doctorId?.address +
-                ", " +
-                appointment?.doctorId?.city +
-                ", " +
-                appointment?.doctorId?.state}
-            </p>
-          ) : (
-            <p className="text-sm text-gray-500 mt-1">
-              <span className="font-medium">Address:</span>{" "}
-              {appointment?.shopRecieverId?.shopAddress}
-            </p>
-          )}
-          <p className="text-sm text-gray-500 mt-1 font-bold">
-            <span>Date & Time:</span>{" "}
-            {`${moment(appointment?.appointmentDate).format("MMM Do YYYY")} |
-            ${moment(new Date(appointment?.startTime)).format("LT")}`}
-          </p>
-        </div>
-        {mode === "new" ? (
-          <div className="flex gap-4 justify-center items-center">
-            <Button
-              disabled={acceptingAppointment}
-              onClick={() => acceptAppointment()}
-              className="bg-green-500 text-white hover:bg-green-600 p-2 rounded-full shadow-md"
-            >
-              <Check className="w-5 h-5" />
-            </Button>
-            <Button
-              onClick={() => setDialogOpen(true)}
-              className="bg-red-500 text-white hover:bg-red-600  p-2 rounded-full shadow-md"
-            >
-              <X className="w-5 h-5" />
-            </Button>
-          </div>
-        ) : mode === "previous" ? (
-          <div className="flex flex-col gap-2 h-32 justify-between items-end">
-            <AppointmentBadge status={appointment?.status} />
-            {role === "shopOwner" && appointment?.status === "pending" ? (
-              <div className="flex gap-4">
-                <Button
-                  onClick={() => failedAppointment()}
-                  disabled={failingAppointment}
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-                >
-                  Failed
-                </Button>
-
-                <Button
-                  onClick={() => completeAppointment()}
-                  disabled={completingAppointment}
-                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
-                >
-                  Completed
-                </Button>
-              </div>
+        <div className="flex gap-4 flex-col sm:flex-row">
+          <div className="flex-1">
+            {role && role === "petDoctor" ? (
+              <h3 className="text-lg font-medium">
+                {appointment?.clientDetails?.firstName +
+                  " " +
+                  appointment?.clientDetails?.lastName}
+              </h3>
+            ) : appointment?.subject === "Pet Doctor" ? (
+              <h3 className="text-lg font-medium">
+                {appointment?.doctorId?.userName}
+              </h3>
             ) : (
+              <h3 className="text-lg font-medium">
+                {appointment?.resources.petId?.petName}
+              </h3>
+            )}
+            {role && role === "shopOwner" ? (
+              <p className="text-sm text-gray-500">
+                {appointment?.clientDetails.firstName +
+                  " " +
+                  appointment?.clientDetails.lastName +
+                  " | " +
+                  appointment?.clientDetails.phoneNo}
+              </p>
+            ) : role === "user" ? (
+              <p className="text-sm text-gray-500">
+                {appointment?.shopRecieverId?.shopName}
+              </p>
+            ) : (
+              <p className="text-sm text-gray-500">
+                {/* {appointment?.shopRecieverId?.shopName} */}
+              </p>
+            )}
+            <p className="text-sm text-gray-500 mt-2">
+              <span className="font-medium">Subject:</span>{" "}
+              {appointment?.subject}
+            </p>
+            {role && role !== "user" ? (
+              <div>
+                <p className="text-sm text-gray-500 mt-1">
+                  <span className="font-medium">Client email:</span>{" "}
+                  {appointment?.clientDetails.email}{" "}
+                </p>
+                <p className="text-sm text-gray-500 mt-1">
+                  <span className="font-medium">Client phone:</span>{" "}
+                  {appointment?.clientDetails.phoneNo}{" "}
+                </p>
+              </div>
+            ) : appointment?.subject === "Pet Doctor" ? (
+              <p className="text-sm text-gray-500 mt-1">
+                <span className="font-medium">Address:</span>{" "}
+                {appointment?.doctorId?.address +
+                  ", " +
+                  appointment?.doctorId?.city +
+                  ", " +
+                  appointment?.doctorId?.state}
+              </p>
+            ) : (
+              <p className="text-sm text-gray-500 mt-1">
+                <span className="font-medium">Address:</span>{" "}
+                {appointment?.shopRecieverId?.shopAddress}
+              </p>
+            )}
+            <p className="text-sm text-gray-500 mt-1 font-bold">
+              <span>Date & Time:</span>{" "}
+              {`${moment(appointment?.appointmentDate).format("MMM Do YYYY")} |
+            ${moment(new Date(appointment?.startTime)).format("LT")}`}
+            </p>
+          </div>
+          {mode === "new" ? (
+            <div className="flex gap-4 justify-center items-center">
+              <Button
+                disabled={acceptingAppointment}
+                onClick={() => acceptAppointment()}
+                className="bg-green-500 text-white hover:bg-green-600 p-2 rounded-full shadow-md"
+              >
+                <Check className="w-5 h-5" />
+              </Button>
+              <Button
+                onClick={() => setDialogOpen(true)}
+                className="bg-red-500 text-white hover:bg-red-600  p-2 rounded-full shadow-md"
+              >
+                <X className="w-5 h-5" />
+              </Button>
+            </div>
+          ) : mode === "previous" ? (
+            <div className="flex flex-row sm:flex-col gap-2  sm:h-32 justify-between items-end">
+              <AppointmentBadge status={appointment?.status} />
+              {role === "shopOwner" && appointment?.status === "pending" ? (
+                <div className="flex gap-4">
+                  <Button
+                    onClick={() => failedAppointment()}
+                    disabled={failingAppointment}
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Failed
+                  </Button>
+
+                  <Button
+                    onClick={() => completeAppointment()}
+                    disabled={completingAppointment}
+                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Completed
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex gap-4">
+                  <Button
+                    onClick={() =>
+                      viewInCalendar(
+                        appointment?.appointmentDate,
+                        appointment?._id
+                      )
+                    }
+                    className="bg-blue-500 text-white hover:bg-blue-600 w-full"
+                  >
+                    View in Calendar
+                  </Button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex flex-row sm:flex-col gap-2  sm:h-32 justify-between items-end">
+              <AppointmentBadge status={appointment?.status} />
               <div className="flex gap-4">
                 <Button
                   onClick={() =>
@@ -294,31 +314,17 @@ const AppointmentCard = ({ mode, appointment, role, refresh }) => {
                 >
                   View in Calendar
                 </Button>
+                {role === "shopOwner" &&
+                  todayDate > new Date(appointment?.appointmentDate) &&
+                  appointment?.status === "pending" && (
+                    <Button className="bg-blue-500 text-white hover:bg-blue-600 w-full">
+                      Mark as completed
+                    </Button>
+                  )}
               </div>
-            )}
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2 h-32 justify-between items-end">
-            <AppointmentBadge status={appointment?.status} />
-            <div className="flex gap-4">
-              <Button
-                onClick={() =>
-                  viewInCalendar(appointment?.appointmentDate, appointment?._id)
-                }
-                className="bg-blue-500 text-white hover:bg-blue-600 w-full"
-              >
-                View in Calendar
-              </Button>
-              {role === "shopOwner" &&
-                todayDate > new Date(appointment?.appointmentDate) &&
-                appointment?.status === "pending" && (
-                  <Button className="bg-blue-500 text-white hover:bg-blue-600 w-full">
-                    Mark as completed
-                  </Button>
-                )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         {openDialog && (
           <Dialog open={openDialog} onOpenChange={setDialogOpen}>

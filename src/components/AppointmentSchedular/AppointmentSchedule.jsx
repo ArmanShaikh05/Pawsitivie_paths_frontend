@@ -40,7 +40,7 @@ const AppointmentScheduler = ({
         })
         .then(({ data }) => {
           setPetShopData(data.data);
-          setShopId(data.data.shopId)
+          setShopId(data.data.shopId);
           const morningSlots = generateTimeSlots(
             data.data.shopTimmings?.weekdays?.open || "08:00",
             "12:00"
@@ -68,10 +68,10 @@ const AppointmentScheduler = ({
 
   return (
     <div className="flex justify-center w-max">
-      <Card className="w-full max-w-5xl py-4">
-        <CardContent className="grid grid-cols-3 gap-6">
+      <Card className="w-full  max-w-[90vw]  max-md:h-[27rem] border max-md:overflow-y-scroll max-md:hidden-scrollbar lg:max-w-4xl xl:max-w-5xl py-4">
+        <CardContent className="md:grid flex flex-col-reverse  md:grid-cols-[60%_auto] lg:grid-cols-3 gap-6">
           {/* Location & Reason Section */}
-          <div className="col-span-2 overflow-auto h-[27rem] hidden-scrollbar p-2">
+          <div className="lg:col-span-2 md:overflow-auto md:h-[27rem] md:hidden-scrollbar p-2">
             <h2 className="text-sm font-medium text-blue-500 mb-4">
               Enter Details
             </h2>
@@ -113,14 +113,13 @@ const AppointmentScheduler = ({
             <h2 className="text-sm font-medium text-blue-500 my-4">
               Select Date & Time
             </h2>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
               <Calendar
                 mode="single"
                 selected={selectedDate}
                 onSelect={(date) => setSelectedDate(date)}
-                className="col-span-2"
               />
-              <div className="col-span-2">
+              <div>
                 {timeSlots?.map((timeGroup) => (
                   <div key={timeGroup.label} className="mb-4">
                     <h3 className="font-medium text-gray-700 text-sm">

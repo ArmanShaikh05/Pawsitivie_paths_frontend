@@ -166,13 +166,33 @@
     display: flex;
     flex-direction: column;
     min-height: max-content;
-    gap:2rem;
+    gap: 2rem;
+  }
+
+  .profile-container-area .profile-section-1 .basic-details-box {
+    width: 50%;
+    margin-inline: auto;
+    height: 22rem;
+    margin-top: 3rem;
+  }
 }
 
-.profile-container-area .profile-section-1 .basic-details-box {
-  width: 50%;
-  margin-inline: auto;
-  height: 22rem;
-  margin-top: 3rem;
+@media screen and (max-width: 768px) {
+  .profile-container-area .owned-pets .owned-pets-container {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 0;
+  }
 }
+
+@media screen and (max-width: 510px) {
+  .profile-container-area .profile-section-1 .basic-details-box {
+    width: 80%;
+  }
+
+  .profile-container-area .profile-section-1 .more-details-box .detail {
+    width: 100%;
+    overflow-x: auto;
+    grid-template-columns: 6rem auto;
+  }
 }

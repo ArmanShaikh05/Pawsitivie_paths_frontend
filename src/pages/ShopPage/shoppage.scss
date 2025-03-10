@@ -55,10 +55,6 @@
           display: flex;
           align-items: center;
           gap: 0.4rem;
-
-          > p {
-            font-size: 1.1rem;
-          }
         }
 
         .share-handles {
@@ -69,6 +65,7 @@
 
           svg {
             cursor: pointer;
+            width: 25px;
           }
 
           > div {
@@ -206,5 +203,64 @@
       top: 0.5rem;
       right: 0.5rem;
     }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .shop-page .single-shop-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .shop-page {
+    padding: 0;
+  }
+
+  .shop-page .single-shop-container .shop-images-section {
+    padding: 0.5rem;
+  }
+
+  .shop-page .single-shop-container .pet-details-section .details-row {
+    display: grid;
+    grid-template-columns: 150px auto;
+    justify-content: flex-start;
+    overflow-x: scroll;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .shop-page .single-shop-container .shop-images-section .full-size-image {
+    height: 15rem;
+  }
+}
+
+@media screen and (max-width: 427px) {
+  .shop-page
+    .single-shop-container
+    .shop-images-section
+    .share-footer
+    .share-handles
+    svg {
+    width: 15px;
+  }
+
+  .shop-page
+    .single-shop-container
+    .shop-images-section
+    .share-footer
+    .share-icon
+    > p {
+    font-size: 0.8rem;
+  }
+
+  .shop-page .single-shop-container .pet-details-section .details-row{
+    grid-template-columns: 100px auto;
+  }
+
+  .shop-page .single-shop-container .pet-details-section .details-row > p {
+    font-size: 0.8rem;
+    text-align: left;
   }
 }

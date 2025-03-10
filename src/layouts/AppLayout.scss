@@ -1,0 +1,34 @@
+@import "../styles/utils.scss";
+
+.section-divider {
+  width: 100%;
+  height: calc(100vh - $navbar-height);
+  display: grid;
+  grid-template-columns: 12rem auto;
+  transition: grid-template-columns 0.3s ease;
+
+  &.collapsed {
+    grid-template-columns: 60px auto; // Adjust when sidebar collapses
+  }
+}
+
+.content-area {
+  width: 100%;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+/* Responsive Handling */
+@media (max-width: 768px) {
+  .section-divider {
+    display: flex;
+  }
+
+  .content-area {
+    padding-left: 60px;
+  }
+
+  .section-divider.open {
+    grid-template-columns: max-content auto;
+  }
+}

@@ -148,14 +148,14 @@ const Profile = () => {
         defaultValue="posts"
         className="mt-6 mx-auto w-full flex items-center flex-col"
       >
-        <TabsList className="grid w-max h-[2.5rem] ml-8 grid-cols-3 gap-x-8">
-          <TabsTrigger className={"h-full"} value="posts">
+        <TabsList className="grid w-max h-[2.5rem] ml-8 max-[450px]:mx-auto grid-cols-3 md:gap-x-8 gap-x-4 max-[450px]:overflow-x-auto max-[450px]:w-[90%]">
+          <TabsTrigger className={"h-full w-24"} value="posts">
             Posts
           </TabsTrigger>
-          <TabsTrigger className={"h-full"} value="pets">
+          <TabsTrigger className={"h-full w-24"} value="pets">
             Owned Pets
           </TabsTrigger>
-          <TabsTrigger className={"h-full"} value="saved">
+          <TabsTrigger className={"h-full w-24"} value="saved">
             Bookmarked
           </TabsTrigger>
         </TabsList>
@@ -166,7 +166,7 @@ const Profile = () => {
             </div>
             {
               posts?.length > 0 ? (
-                <div className="w-full grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-1 gap-y-4 px-[2rem] place-items-center">
+                <div className="w-full grid grid-cols-3  gap-x-1 gap-y-4 px-[2rem] max-[450px]:px-0 place-items-center">
               {posts.slice().reverse().map((item, index) => (
                 <Dialog key={index}>
                   <DialogTrigger asChild>
@@ -208,7 +208,7 @@ const Profile = () => {
                 Manage
               </Button>
             </div>
-            <div className="owned-pets-container">
+            <div>
             {userData?.ownedPets && userData?.ownedPets?.length > 0 ? (
               <div className="owned-pets-container">
                 {userData?.ownedPets?.map((pet, index) => (
@@ -231,7 +231,7 @@ const Profile = () => {
 
             {
               bookmarks.length > 0 ? (
-                <div className="w-full grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-1 gap-y-4 px-[2rem] place-items-center">
+                <div className="w-full grid grid-cols-3 gap-x-1 gap-y-4 px-[2rem] max-[450px]:px-0 place-items-center">
               { bookmarks.slice().reverse().map((item, index) => (
                 <Dialog key={index}>
                   <DialogTrigger asChild>

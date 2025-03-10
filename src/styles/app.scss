@@ -14,14 +14,14 @@ body {
   overflow: hidden;
 }
 
-.section-divider {
-  width: 100%;
-  height: calc(100vh - $navbar-height);
-  overflow: auto;
-  display: grid;
-  // display:flex;
-  grid-template-columns: $sidebar-width auto;
-}
+// .section-divider {
+//   width: 100%;
+//   height: calc(100vh - $navbar-height);
+//   overflow: auto;
+//   display: grid;
+//   // display:flex;
+//   grid-template-columns: $sidebar-width auto;
+// }
 
 .btn {
   background-color: $color-blue-hover;

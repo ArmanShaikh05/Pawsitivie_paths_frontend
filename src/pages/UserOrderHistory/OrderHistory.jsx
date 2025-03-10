@@ -32,10 +32,10 @@ const OrderHistory = () => {
         .then(({ data }) => {
           if (data.data && data.data.length > 0) {
             let formattedOrders = [];
-            let index = 0
+            let index = 0;
             data.data.forEach((order) => {
               const tempFormattedOrders = order?.products.map((product) => ({
-                SNo: index+=1,
+                SNo: (index += 1),
                 orderId: order._id,
                 Product: product.productId.productName,
                 Date: moment(order.createdAt).format("MMMM Do YYYY"),
@@ -43,11 +43,11 @@ const OrderHistory = () => {
                 Price: product.productId.productPrice,
                 Qty: product.productQty,
                 Status: order.status,
-                ProductImage:product.productId.productImages?.[0]?.url,
+                ProductImage: product.productId.productImages?.[0]?.url,
                 ProductFallback: product.productId.productName
-                .split(" ")
-                .map((item) => item.slice(0, 1))
-                .join(""),
+                  .split(" ")
+                  .map((item) => item.slice(0, 1))
+                  .join(""),
               }));
 
               formattedOrders = [...formattedOrders, ...tempFormattedOrders];
@@ -68,11 +68,6 @@ const OrderHistory = () => {
 
   return (
     <div className="w-full py-6 px-4 lg:px-8 h-[calc(100vh - 4rem)] overflow-scroll hidden-scrollbar">
-      {/* <div className="flex w-full justify-between items-center h-min px-4">
-        <h2 className="text-[1.2rem]">Orders</h2>
-        <DatePickerWithRange />
-      </div> */}
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

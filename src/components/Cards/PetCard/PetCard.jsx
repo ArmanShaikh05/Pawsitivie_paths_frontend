@@ -68,8 +68,8 @@ const PetCard = ({path="",petData,forceUpdate}) => {
       <CardHeader>
         <CardTitle>{petData?.petName}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <img className="h-[12rem] w-[15rem] object-cover" src={petData?.petImages[0]?.url} alt="" onClick={()=>navigate(path)}/>
+      <CardContent className="flex flex-col items-center">
+        <img className="h-[8rem] w-[9rem] md:h-[12rem] md:w-[15rem] object-cover" src={petData?.petImages[0]?.url} alt="" onClick={()=>navigate(path)}/>
         <p className="mt-5 text-sm">{`Gen: ${petData?.petGender} | Age: ${petData?.petAge} years`}</p>
         {liked ? (
             <FaHeart onClick={removePetFromWhishlist} size={22} color="red" className="absolute top-[15px] right-[20px] z-[50]" />

@@ -143,7 +143,7 @@ const PostModal = ({ post, isEditable = true }) => {
   };
 
   return (
-    <Card className="w-[40vw] bg-white rounded-lg shadow-md">
+    <Card className="w-[50vw] max-[768px]:w-[65vw] bg-white rounded-lg shadow-md">
       <CardContent className="p-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-3">
@@ -197,13 +197,13 @@ const PostModal = ({ post, isEditable = true }) => {
             <img
               src={post?.postImages?.[0]?.url}
               alt="Feed"
-              className="w-full h-[25rem] object-contain"
+              className="w-full h-[25rem] max-[600px]:h-[18rem] max-[430px]:h-[13rem] object-contain"
             />
           ) : (
             <Carousel className="w-full ">
               <CarouselContent>
                 {post?.postImages?.map((img, index) => (
-                  <CarouselItem key={index} className="w-[90%] h-[25rem]">
+                  <CarouselItem key={index} className="w-[90%] h-[25rem] max-[600px]:h-[18rem] max-[430px]:h-[13rem]">
                     <img
                       src={img.url}
                       alt="Feed"

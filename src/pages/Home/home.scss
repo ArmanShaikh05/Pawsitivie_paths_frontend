@@ -50,3 +50,9 @@
     }
 
 }
+
+@media screen and (max-width:425px) {
+    .dashboard-container{
+        padding-inline: 1rem;
+    }
+}

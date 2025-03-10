@@ -237,7 +237,7 @@ const SinglePet = () => {
   };
 
   const createAppointment = async () => {
-    const todayDate = new Date()
+    const todayDate = new Date();
     if (
       userFirstName === "" ||
       userLastName === "" ||
@@ -257,9 +257,10 @@ const SinglePet = () => {
       });
     }
 
-    if(selectedDate < todayDate){
+    if (selectedDate < todayDate) {
       return toast({
-        title: "Cannot schedule appointment in past date. Please select appropriate date",
+        title:
+          "Cannot schedule appointment in past date. Please select appropriate date",
         variant: "destructive",
       });
     }
@@ -303,7 +304,7 @@ const SinglePet = () => {
       }
     } catch (error) {
       if (axios.isCancel(error)) return;
-      if(error.response.status === 409){
+      if (error.response.status === 409) {
         return toast({
           title: "You already have an appointment at this time",
           variant: "destructive",
@@ -337,7 +338,7 @@ const SinglePet = () => {
                 {data?.petImages?.map((item, index) => (
                   <CarouselItem
                     key={index}
-                    className="md:basis-1/2 lg:basis-1/4"
+                    className="max-[580px]:basis-1/2 basis-1/4 "
                   >
                     <div
                       onClick={() => setMainImage(item.url)}
@@ -451,7 +452,7 @@ const SinglePet = () => {
             <p>{moment(data?.createdAt).format("DD-MM-YYYY")}</p>
           </div>
 
-          <div className="grid grid-cols-2 items-center gap-8">
+          <div className="grid grid-cols-2 items-center gap-8 max-[450px]:flex max-[450px]:flex-col">
             <Button
               variant="outline"
               className="h-[3rem]"
@@ -547,7 +548,10 @@ const SinglePet = () => {
               onOpenChange={setOpenAppointmentDialog}
             >
               <AlertDialogTrigger asChild>
-                <Button variant="primary" className="h-[3rem]">
+                <Button
+                  variant="primary"
+                  className="h-[3rem] text-xs lg:text-sm w-max p-2"
+                >
                   Schedule Appointment
                 </Button>
               </AlertDialogTrigger>
@@ -619,8 +623,8 @@ const SinglePet = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            <CarouselPrevious className="hidden sm:block" />
+            <CarouselNext className="hidden sm:block" />
           </Carousel>
         </div>
       </div>
@@ -646,8 +650,8 @@ const SinglePet = () => {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
+              <CarouselPrevious className="hidden sm:block" />
+              <CarouselNext className="hidden sm:block" />
             </Carousel>
           </div>
 
@@ -658,14 +662,14 @@ const SinglePet = () => {
       )}
 
       <div className="customer-reviews">
-        <div className="review-header w-full flex justify-between pr-4 mb-8">
+        <div className="review-header w-full flex justify-between items-center pr-4 mb-8">
           <h2
             className={"h-3rem text-[1.3rem]  mb-4 font-[500] styled-heading"}
           >
             Customer Reviews
           </h2>
           <Button variant="primary" onClick={() => navigate("pet-reviews")}>
-            View All Reviews
+            View All
           </Button>
         </div>
         <div className="reviews-container">
@@ -706,9 +710,9 @@ const SinglePet = () => {
                           )}
                         </div>
                       </div>
-                      <p>{moment(review?.createdAt).format("DD/MM/YYYY")}</p>
+                      <p className="text-xs md:text-sm">{moment(review?.createdAt).format("DD/MM/YYYY")}</p>
                     </div>
-                    <p className="capitalize">{review?.userId?.userName}</p>
+                    <p className="capitalize max-[500px]:text-sm">{review?.userId?.userName}</p>
                   </div>
                 </div>
 

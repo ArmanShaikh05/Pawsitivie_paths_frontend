@@ -203,7 +203,7 @@ const EditProfile = () => {
             ref={profilePicRef}
             accept="image/png, image/jpeg, image/jpg, image/gif, image/webp, image/svg+xml"
           />
-          <div className="grid w-[80%] mx-auto items-center gap-1.5">
+          <div className="grid w-[80%] max-[900px]:w-full max-[900px]:px-[2rem] max-[600px]:px-[0.5rem] mx-auto items-center gap-1.5">
             <Label htmlFor="firstName">UserId</Label>
             <Input
               type="text"

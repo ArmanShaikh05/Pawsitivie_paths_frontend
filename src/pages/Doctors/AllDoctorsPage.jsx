@@ -1,10 +1,19 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { GET_ALL_DOCTORS } from "@/constants/routes";
 import axios from "axios";
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoFilter, IoSearchOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 const specialties = [
@@ -43,35 +52,55 @@ const AllDoctorsPage = () => {
 
   return (
     <div className="page-container overflow-auto hidden-scrollbar bg-gray-100 flex flex-col">
-      <div className=" border flex mx-auto items-center w-[96%] mt-4 rounded-lg text-sm px-3 py-3 gap-3 bg-white ">
-        <IoSearchOutline className="w-5 h-5" />
-        <input
-          type="text"
-          className="w-full border-none outline-none"
-          placeholder="Search for pet doctors..."
-          onChange={(e) => handleSearchQuery(e.target.value)}
-          value={searchQuery}
-        />
+      <div className=" border grid grid-cols-[auto_50px] mx-auto items-center w-[96%] mt-4 rounded-lg text-sm px-3 py-3 gap-3 bg-white ">
+        <div className="w-full flex items-center gap-2">
+          <IoSearchOutline className="w-5 h-5" />
+          <input
+            type="text"
+            className="w-full border-none outline-none"
+            placeholder="Search for pet doctors..."
+            onChange={(e) => handleSearchQuery(e.target.value)}
+            value={searchQuery}
+          />
+        </div>
+        {/* FILTER SHEET */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" className="border-none">
+              <IoFilter />
+            </Button>
+          </SheetTrigger>
+          <SheetContent className="w-56">
+            <SheetHeader>
+              <SheetTitle>Filters</SheetTitle>
+              <SheetDescription>
+                <div></div>
+              </SheetDescription>
+            </SheetHeader>
+            <aside className="w-[18%] h-max p-4 bg-white rounded-lg shadow-md">
+              <div className="space-y-2">
+                {specialties.map((spec, index) => (
+                  <button
+                    key={index}
+                    className={`w-full py-2 border rounded-lg text-left text-sm px-4 hover:bg-gray-100 ${
+                      speciality === spec ? "bg-gray-200" : ""
+                    }`}
+                    onClick={() =>
+                      speciality === spec
+                        ? setSpeciality("")
+                        : setSpeciality(spec)
+                    }
+                  >
+                    {spec}
+                  </button>
+                ))}
+              </div>
+            </aside>
+          </SheetContent>
+        </Sheet>
       </div>
       <div className="flex flex-1 p-6">
-        {/* Sidebar */}
-        <aside className="w-[18%] h-max p-4 bg-white rounded-lg shadow-md">
-          <div className="space-y-2">
-            {specialties.map((spec, index) => (
-              <button
-                key={index}
-                className={`w-full py-2 border rounded-lg text-left text-sm px-4 hover:bg-gray-100 ${
-                  speciality === spec ? "bg-gray-200" : ""
-                }`}
-                onClick={() =>
-                  speciality === spec ? setSpeciality("") : setSpeciality(spec)
-                }
-              >
-                {spec}
-              </button>
-            ))}
-          </div>
-        </aside>
+
 
         {/* Doctors List */}
         <div className="h-[77vh] pb-4 overflow-y-auto hidden-scrollbar flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-6 ">

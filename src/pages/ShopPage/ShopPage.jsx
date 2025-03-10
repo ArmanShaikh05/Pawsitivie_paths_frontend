@@ -84,7 +84,7 @@ const ShopPage = () => {
 
   const [reviewsData, setReviewsData] = useState();
 
-  const [overallReview, setOverallReview] = useState("")
+  const [overallReview, setOverallReview] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -96,7 +96,7 @@ const ShopPage = () => {
       .then(({ data }) => {
         setData(data.data);
         setReviewsData(data.data?.reviews);
-        setOverallReview(data?.overallReview)
+        setOverallReview(data?.overallReview);
         setLoading(false);
         setLiked(
           userData?.whishlistShops.includes(data.data?._id) ? true : false
@@ -241,7 +241,7 @@ const ShopPage = () => {
                   {data?.shopImages?.map((img, index) => (
                     <CarouselItem
                       key={index}
-                      className="md:basis-1/2 lg:basis-1/4"
+                      className="sm:basis-1/5 lg:basis-1/4"
                       onClick={() => setMainImage(img.url)}
                     >
                       <div className="p-1 cursor-pointer">
@@ -266,11 +266,11 @@ const ShopPage = () => {
 
           <div className="share-footer">
             <div className="share-icon">
-              <FaShareAlt size={20} />
-              <p>Share:</p>
+              <FaShareAlt className="w-4 h-4" />
+              <p className="text-xs sm:text-lg">Share:</p>
             </div>
             <div className="share-handles">
-              <div className="flex gap-4 relative items-center">
+              <div className="flex gap-2 sm:gap-4 relative items-center">
                 {data?.socialHandles?.facebook &&
                   data?.socialHandles?.facebook !== "" && (
                     <FaFacebook size={22} />
@@ -294,7 +294,7 @@ const ShopPage = () => {
               </div>
               <Button
                 variant="primary"
-                className="h-[3rem]"
+                className="h-[2.2rem] sm:h-[3rem] text-xs sm:text-sm"
                 onClick={() => setDialogOpen(true)}
               >
                 Post Review
@@ -483,16 +483,13 @@ const ShopPage = () => {
             >
               <CarouselContent>
                 {data?.shopPets?.map((item, index) => (
-                  <CarouselItem
-                    key={index}
-                    className="md:basis-1/2 lg:basis-1/4"
-                  >
+                  <CarouselItem key={index} className="basis-full sm:basis-1/2  lg:basis-1/4">
                     <PetCard petData={item} path={`/pets/${item._id}`} />
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
+              <CarouselPrevious className="hidden md:block" />
+              <CarouselNext className="hidden md:block" />
             </Carousel>
           </div>
 
@@ -514,16 +511,13 @@ const ShopPage = () => {
             >
               <CarouselContent>
                 {reviewsData.map((review, index) => (
-                  <CarouselItem
-                    key={index}
-                    className="md:basis-1/2 lg:basis-1/4"
-                  >
+                  <CarouselItem key={index} className="basis-full sm:basis-1/2  lg:basis-1/4">
                     <ShopTestimonial reviewData={review} />
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
+              <CarouselPrevious className="hidden md:block" />
+              <CarouselNext className="hidden md:block" />
             </Carousel>
           </div>
         </div>

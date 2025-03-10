@@ -103,7 +103,7 @@ const Appointments = () => {
   }, [role, userId, reducerValue]);
 
   return (
-    <div className="p-6 overflow-y-hidden">
+    <div className=" p-0 sm:p-6 overflow-y-hidden">
       <h2 className="text-xl font-semibold mb-4">My appointments</h2>
       {isFetchAppointments ? (
         <Loader />

@@ -123,7 +123,7 @@ const WhishListPage = () => {
 
   return (
     <div className="whishlist-page">
-      <div className="flex space-x-2 border-2 p-2 w-max rounded-[8px] mb-4">
+      <div className="flex space-x-2 border-2 p-2 w-[75vw] overflow-x-auto hidden-scrollbar md:w-max rounded-[8px] mb-4">
         <Button
           variant={path === "pets" ? "primary" : "outline"}
           className="px-4 py-2"

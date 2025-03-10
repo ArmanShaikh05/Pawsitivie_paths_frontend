@@ -232,10 +232,10 @@ const DoctorsProfile = () => {
 
   return (
     <div className="page-container hidden-scrollbar p-4">
-      <div className="page-container hidden-scrollbar p-4">
-        <div className="grid grid-cols-[25%_auto] place-items-center px-4 items-center p-4 space-x-4">
+      <div className="page-container hidden-scrollbar p-0">
+        <div className="grid max-[900px]:grid-cols-1 grid-cols-[25%_auto] place-items-center p-0 sm:px-4 items-center sm:p-4 space-x-4">
           {/* Left Section: Doctor Image */}
-          <div className=" self-start w-[80%] aspect-square   flex items-center flex-col justify-center">
+          <div className=" self-start max-[900px]:w-[65%] max-[900px]:mb-4 w-[80%] aspect-square   flex items-center flex-col justify-center">
             <div className="border w-full p-2 rounded-lg">
               <Avatar className="w-full h-full  rounded-lg">
                 <AvatarImage
@@ -346,7 +346,7 @@ const DoctorsProfile = () => {
                 </div>
               )}
 
-              <div className="w-full gap-8 flex justify-end">
+              <div className="w-full gap-8 flex justify-end max-[500px]:flex-col max-[500px]:mt-4  max-[500px]:gap-4">
                 <Button
                   variant="outline"
                   className="h-[3rem]"

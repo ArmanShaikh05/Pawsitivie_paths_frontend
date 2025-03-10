@@ -254,11 +254,11 @@ const FavouriteShops = () => {
 
       {/* ShadCN Pagination Controls */}
       <div className="flex items-center mt-4 w-full sticky bottom-0">
-        <p className="w-[20rem]">
+        <p className="w-[20rem] max-[426px]:hidden">
           Page <b>{table.getState().pagination.pageIndex + 1}</b> of{" "}
           <b>{table.getPageCount()}</b>
         </p>
-        <Pagination>
+        <Pagination className={"max-[426px]:p-0"}>
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
@@ -271,7 +271,7 @@ const FavouriteShops = () => {
               />
             </PaginationItem>
             {table.getPageCount() > 0 && (
-              <>
+              <div className="flex w-28  overflow-x-auto hidden-scrollbar">
                 {Array.from({ length: table.getPageCount() }).map(
                   (_, index) => (
                     <PaginationItem key={index}>
@@ -291,7 +291,7 @@ const FavouriteShops = () => {
                     </PaginationItem>
                   )
                 )}
-              </>
+              </div>
             )}
             <PaginationItem>
               <PaginationNext
