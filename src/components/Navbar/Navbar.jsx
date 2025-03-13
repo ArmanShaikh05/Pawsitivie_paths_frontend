@@ -4,12 +4,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { GET_DOCTOR_DETAILS, GET_SHOP_DETAILS, GET_USER_DETAILS } from "@/constants/routes";
+import {
+  GET_DOCTOR_DETAILS,
+  GET_SHOP_DETAILS,
+  GET_USER_DETAILS,
+} from "@/constants/routes";
 import { useToast } from "@/hooks/use-toast";
 import NotificationComponent from "@/pages/Notifications/Notifications";
 import {
   clearNotifications,
-  setNotificationData
+  setNotificationData,
 } from "@/redux/reducers/notificationsSlice";
 import {
   setCartItems,
@@ -83,9 +87,13 @@ const Navbar = () => {
     const cancelToken = axios.CancelToken.source();
     axios
       .get(
-        `${role === "user" ? GET_USER_DETAILS : role === "petDoctor" ? GET_DOCTOR_DETAILS : GET_SHOP_DETAILS}/${
-          currentUser.uid
-        }`,
+        `${
+          role === "user"
+            ? GET_USER_DETAILS
+            : role === "petDoctor"
+            ? GET_DOCTOR_DETAILS
+            : GET_SHOP_DETAILS
+        }/${currentUser.uid}`,
         {
           cancelToken: cancelToken.token,
         }
@@ -95,7 +103,7 @@ const Navbar = () => {
           dispatch(setNotificationData(data.data?.notifications || []));
         }
         dispatch(setUserDetails(data.data));
-        dispatch(setCartItems(data.data?.cartItems || []));
+        role === "user" && dispatch(setCartItems(data.data?.cartItems || []));
 
         setUserData(data.data);
         fallbackText.current = data.data?.userName

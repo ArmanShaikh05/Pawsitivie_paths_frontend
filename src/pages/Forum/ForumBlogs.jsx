@@ -25,6 +25,7 @@ import {
 import { FaBookmark } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import CreatePostHeader from "./CreatePostHeader";
 
 const ForumBlogs = () => {
   const [allPosts, setAllPosts] = useState([]);
@@ -89,14 +90,17 @@ const ForumBlogs = () => {
 
   return (
     <div className="page-container hidden-scrollbar ">
-      <div className="border w-[85%] h-full mx-auto pt-4 rounded-xl shadow-md">
+      <div className="max-[450px]:w-[95%] w-[85%] mx-auto lg:hidden">
+        <CreatePostHeader />
+      </div>
+      <div className=" border max-[450px]:w-[95%] w-[85%] mx-auto pt-4 rounded-xl shadow-md">
         {/* Forum Blogs */}
-        <div className=" max-h-[95%] overflow-y-auto hidden-scrollbar">
+        <div className=" h-[80vh] overflow-y-auto hidden-scrollbar">
           {allPosts.length > 0 ? (
             allPosts.map((post, index) => (
               <div
                 key={index}
-                className="bg-white p-4 rounded-lg shadow-md text-sm my-4 w-[90%] mx-auto"
+                className="bg-white max-[450px]:p-0 max-[450px]:pb-4 p-4 max-[450px]:rounded-none max-[450px]:shadow-none max-[450px]:border-b-2 rounded-lg shadow-md text-sm my-4 w-[90%] mx-auto"
               >
                 {/* Header */}
                 <div className="flex justify-between items-center">
@@ -138,7 +142,7 @@ const ForumBlogs = () => {
                       className="w-full h-[25rem] object-contain"
                     />
                   ) : (
-                    <Carousel className="w-full h-[25rem]">
+                    <Carousel className="w-full h-[15rem] sm:h-[25rem]">
                       <CarouselContent>
                         {post?.postImages?.map((img, index) => (
                           <CarouselItem key={index} className="w-full h-full">
@@ -227,7 +231,7 @@ const ForumBlogs = () => {
                 )}
 
                 {/* Caption */}
-                <div className="text-sm ml-2">
+                <div className="text-sm max-[450px]:ml-0 ml-2">
                   <div className="mt-4">
                     <span>
                       <b>{post?.userId?.userName + " "}</b>

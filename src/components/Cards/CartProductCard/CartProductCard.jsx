@@ -20,6 +20,9 @@ import { useState } from "react";
 import { REMOVE_FROM_CART, UPDATING_CART_QUANTITY } from "@/constants/routes";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItems } from "@/redux/reducers/userDetailsSlice";
+import useWindowSize from "@/hooks/useWindowSize";
+import { Card } from "@/components/ui/card";
+import { Minus, Plus } from "lucide-react";
 
 const CartProductCard = ({ cartItem }) => {
   const { toast } = useToast();
@@ -28,6 +31,8 @@ const CartProductCard = ({ cartItem }) => {
   const [increasingQty, setIncreasingQty] = useState(false);
   const [decreasingQty, setDecreasingQty] = useState(false);
   const [removingItem, setRemovingItem] = useState(false);
+
+  const { width } = useWindowSize();
 
   const removeFromCart = async () => {
     try {
@@ -121,7 +126,7 @@ const CartProductCard = ({ cartItem }) => {
     }
   };
 
-  return (
+  return width > 700 ? (
     <div className="cart-item">
       <div className="product-area">
         <div className="product-image">
@@ -138,7 +143,7 @@ const CartProductCard = ({ cartItem }) => {
           <div className="product-footer">
             <div className="footer-box">
               <h3>
-                Pet Type <span>:</span>
+                Type <span>:</span>
               </h3>
               <p>{cartItem.productId.petType}</p>
             </div>
@@ -154,7 +159,7 @@ const CartProductCard = ({ cartItem }) => {
         </div>
       </div>
       <div className="price-area">
-        {getCurrency(cartItem.productId.productPrice)} /-
+        <p>{getCurrency(cartItem.productId.productPrice)} /-</p>
       </div>
       <div className="quantity-area">
         <Button
@@ -206,6 +211,88 @@ const CartProductCard = ({ cartItem }) => {
         </AlertDialogContent>
       </AlertDialog>
     </div>
+  ) : (
+    <Card className="p-4 shadow-md rounded-lg bg-white w-full my-4">
+      <div className="flex w-full items-center gap-4 flex-col">
+        <div className="flex items-center w-full gap-4">
+          <img
+            src={cartItem.productId?.productImages?.[0]?.url}
+            alt={cartItem.productId.productName}
+            className="w-24 h-24 object-cover rounded-md"
+          />
+          <div className="flex flex-col w-full justify-between h-full">
+            <div className="flex flex-col w-full">
+              <h3 className="text-[1rem] font-semibold text-gray-900">
+                {cartItem.productId.productName}
+              </h3>
+              <p className="text-sm text-gray-500">
+                {cartItem.productId.shopName}
+              </p>
+              <p className="text-sm text-gray-500">
+                Type: {cartItem.productId.petType}
+              </p>
+              {cartItem.size !== "null" && (
+                <p className="text-sm text-gray-500">Size: {cartItem.size}</p>
+              )}
+            </div>
+            <p className="text-[0.9rem] font-bold text-gray-900 mt-2">
+              {getCurrency(cartItem.quantity * cartItem.productId.productPrice)}{" "}
+              /-
+            </p>
+          </div>
+        </div>
+        <div className="w-full flex justify-between items-center">
+          <div className="flex gap-2 items-center bg-gray-100 px-3 py-2 rounded-lg">
+            <Button
+              variant="primary"
+              size="icon"
+              onClick={() => decreaseQuantity()}
+            >
+              <Minus className="w-4 h-4" />
+            </Button>
+            <span className="text-sm font-medium text-gray-900 mx-2">
+              {cartItem.quantity}
+            </span>
+            <Button
+              variant="primary"
+              size="icon"
+              onClick={() => increaseQuantity()}
+            >
+              <Plus className="w-4 h-4" />
+            </Button>
+          </div>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="outline"
+                className="w-[2rem] h-[2rem] p-0 flex justify-center items-center"
+              >
+                <MdDelete size={19} />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will remove the product
+                  from your cart.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={removeFromCart}
+                  disabled={removingItem}
+                >
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      </div>
+    </Card>
   );
 };
 

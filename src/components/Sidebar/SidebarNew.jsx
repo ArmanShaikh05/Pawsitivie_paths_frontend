@@ -7,17 +7,24 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import "./sidebarNew.scss";
+import useWindowSize from "@/hooks/useWindowSize";
+import { AiFillMessage } from "react-icons/ai";
 
 const SideBarNew = () => {
   const navigate = useNavigate();
   const path = window.location.pathname.split("/")[1];
   const role = useSelector((state) => state.userDetailReducer.userData?.role);
   const userId = useSelector((state) => state.userDetailReducer.userData?._id);
-  const [isOpen, setIsOpen] = useState(false); // Toggle sidebar state
+  const [isOpen, setIsOpen] = useState(true); // Toggle sidebar state
+
+  const { width } = useWindowSize();
 
   return (
     <div className={`sidebar-container ${isOpen ? "open" : "collapsed"}`}>
-      <button className="toggle-btn md:hidden" onClick={() => setIsOpen(!isOpen)}>
+      <button
+        className="toggle-btn md:hidden"
+        onClick={() => setIsOpen(!isOpen)}
+      >
         {isOpen ? "«" : "»"}
       </button>
 
@@ -146,6 +153,18 @@ const SideBarNew = () => {
             <MdForum />
             {isOpen && <p>Forum</p>}
           </div>
+
+          {width < 900 && (
+            <div
+              className={`sidebar-box ${
+                path === "messages" ? "active-sidebar" : ""
+              }`}
+              onClick={() => navigate(`/messages`)}
+            >
+              <AiFillMessage />
+              {isOpen && <p>Messages</p>}
+            </div>
+          )}
         </>
       )}
     </div>

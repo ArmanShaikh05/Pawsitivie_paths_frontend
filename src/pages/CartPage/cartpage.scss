@@ -13,16 +13,6 @@
     display: flex;
     flex-direction: column;
 
-    > h3 {
-      font-size: 1.8rem;
-      font-weight: 550;
-      color: $primary-color;
-    }
-
-    > p {
-      font-size: 0.9rem;
-    }
-
     .cart-box {
       padding: 1rem;
       // border: $border;
@@ -37,7 +27,7 @@
       .cart-headings {
         width: 100%;
         display: grid;
-        grid-template-columns: 3.5fr 1fr 1.5fr 1fr;
+        grid-template-columns: 3.5fr 1.5fr 1fr 1.5fr;
 
         > h4 {
           font-weight: 600;
@@ -51,12 +41,11 @@
         gap: 1rem;
         height: 32rem;
         overflow-y: auto;
-
       }
     }
   }
 
-  .payment-box{
+  .payment-box {
     width: 27%;
     height: 100%;
     margin: auto 0;
@@ -65,44 +54,41 @@
     padding: 1rem;
     gap: 1rem;
 
-
-
-    .address-box{
+    .address-box {
       display: flex;
       flex-direction: column;
       gap: 1rem;
       height: 17rem;
 
-      >h3{
+      > h3 {
         font-size: 1.2rem;
         font-weight: 500;
       }
 
-      .address-details{
+      .address-details {
         display: flex;
         flex-direction: column;
         gap: 1rem;
       }
     }
 
-    .coupon-box{
+    .coupon-box {
       display: flex;
-      flex-direction:column;
-      gap:1rem;
+      flex-direction: column;
+      gap: 1rem;
       height: 17rem;
 
-      >h3{
+      > h3 {
         margin-top: 1rem;
         font-size: 1.2rem;
         font-weight: 500;
-
       }
-      >p{
+      > p {
         font-size: 0.825rem;
       }
     }
 
-    .payment{
+    .payment {
       display: flex;
       flex-direction: column;
       width: 95%;
@@ -111,29 +97,45 @@
       padding: 1rem;
       border-radius: 10px;
 
-      >h3{
+      > h3 {
         font-size: 1.2rem;
         font-weight: 600;
       }
 
-      .card-details{
+      .card-details {
         display: flex;
         flex-direction: column;
         gap: 0.2rem;
         margin: 1rem 0 2rem 0;
 
-        .detail-row{
+        .detail-row {
           width: 100%;
           display: grid;
           grid-template-columns: 1fr 1fr;
 
-          >p{
+          > p {
             text-align: right;
           }
         }
       }
-      
     }
-
   }
+}
+
+@media screen and (max-width: 1500px) {
+  .payment-box {
+    display: none;
+  }
+
+
+  .cart-container .cart-wrapper{
+    width: 100%;
+  }
+}
+
+
+@media screen and (max-width:500px) {
+  .cart-container .cart-wrapper .cart-box {
+    padding: 0;
+}
 }

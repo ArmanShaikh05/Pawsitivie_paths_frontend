@@ -43,6 +43,7 @@ import DoctorsProfile from "./pages/Doctors/DoctorsProfile";
 import DoctorHomePage from "./pages/Doctors/DoctorHomePage.jsx/DoctorHomePage";
 import DoctorProfile from "./pages/Doctors/DoctorProfile/DoctorProfile";
 import DoctorProfileEdit from "./pages/Doctors/DoctorProfileEdit/DoctorProfileEdit";
+import MobileMessage from "./pages/Forum/MobileMessage";
 
 const App = () => {
   const { currentUser } = useAuth();
@@ -159,6 +160,7 @@ const App = () => {
               />
 
               <Route path="/forum" element={<ForumPage />} />
+              <Route path="/messages" element={<MobileMessage />} />
             </Route>
             {/* USER ONLY ROUTES END HERE */}
 

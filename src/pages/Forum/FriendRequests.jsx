@@ -159,7 +159,7 @@ export default function FriendRequests() {
             </div>
           ))
         ) : (
-          <div>No requests</div>
+          <div className="text-sm">No requests</div>
         )}
       </CardContent>
     </Card>

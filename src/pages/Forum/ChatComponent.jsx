@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 // import { Feed1, Profile1 } from "@/assets";
 import ChatBubble from "@/components/ChatBubble/ChatBubble";
@@ -18,39 +19,7 @@ import { RxCross1 } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-// const messages = [
-//   {
-//     id: 1,
-//     text: "Hi Cassie! Would you be available for a coffee next week? 😊",
-//     time: "8:07",
-//     type: "received",
-//     date: new Date("2025-02-21"),
-//   },
-//   {
-//     id: 2,
-//     text: "Hi Ashley! Yes with pleasure! Do you prefer when?",
-//     time: "8:10",
-//     type: "sent",
-//     date: new Date("2025-02-21"),
-//   },
-//   {
-//     id: 3,
-//     text: "Hmm ... Tuesday night, around 19 hours is good for you?",
-//     time: "8:11",
-//     type: "received",
-//     date: new Date("2025-02-21"),
-//   },
-//   {
-//     id: 4,
-//     text: "By the way, did you see my dog? I present to you Sheldon! 😊",
-//     time: "8:13",
-//     type: "received",
-//     image: Feed1, // Replace with actual image path
-//     date: new Date("2025-02-22"),
-//   },
-// ];
-
-export default function ChatComponent() {
+export default function ChatComponent({mobileMode}) {
   const [searchParams] = useSearchParams();
   const chatId = searchParams.get("chatid");
   const userId = useSelector((state) => state.userDetailReducer.userData?._id);
@@ -176,7 +145,7 @@ export default function ChatComponent() {
   };
 
   return (
-    <Card className="w-full h-full mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    <Card className={`w-full h-full mx-auto bg-white ${mobileMode ? "shadow-none rounded-none border-none":"shadow-lg rounded-lg"} overflow-hidden`}>
       <div className="p-4 flex items-center justify-between border-b">
         <div className="flex items-center space-x-3">
           <ArrowLeft
@@ -207,8 +176,8 @@ export default function ChatComponent() {
           </div>
         </div>
       </div>
-      <ScrollArea className="h-[73%]">
-        <CardContent className="p-4  overflow-y-auto flex flex-col space-y-3">
+      <ScrollArea className={`${mobileMode? "h-[78%]" : "h-[73%]"}`}>
+        <CardContent className={`${mobileMode ? "p-0":"p-4"}  overflow-y-auto flex flex-col space-y-3`}>
           {Object.keys(groupedMessages).map((date) => (
             <div key={date} className="space-y-3">
               <div className="text-center text-xs text-gray-500 my-2">

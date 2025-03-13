@@ -51,8 +51,8 @@ const AllDoctorsPage = () => {
   };
 
   return (
-    <div className="page-container overflow-auto hidden-scrollbar bg-gray-100 flex flex-col">
-      <div className=" border grid grid-cols-[auto_50px] mx-auto items-center w-[96%] mt-4 rounded-lg text-sm px-3 py-3 gap-3 bg-white ">
+    <div className="page-container overflow-auto hidden-scrollbar  flex flex-col">
+      <div className=" border grid grid-cols-[auto_50px] mx-auto items-center w-[96%] mt-0 rounded-lg text-sm px-3 py-3 gap-3 bg-white ">
         <div className="w-full flex items-center gap-2">
           <IoSearchOutline className="w-5 h-5" />
           <input
@@ -70,19 +70,19 @@ const AllDoctorsPage = () => {
               <IoFilter />
             </Button>
           </SheetTrigger>
-          <SheetContent className="w-56">
+          <SheetContent className="w-[80vw] md:w-[60vw]">
             <SheetHeader>
               <SheetTitle>Filters</SheetTitle>
               <SheetDescription>
                 <div></div>
               </SheetDescription>
             </SheetHeader>
-            <aside className="w-[18%] h-max p-4 bg-white rounded-lg shadow-md">
-              <div className="space-y-2">
+            <aside className="w-max h-max p-4 bg-white ">
+              <div className="space-y-2 flex flex-col ">
                 {specialties.map((spec, index) => (
                   <button
                     key={index}
-                    className={`w-full py-2 border rounded-lg text-left text-sm px-4 hover:bg-gray-100 ${
+                    className={`max-[450px]:w-[80%] w-[90%] py-2 border rounded-lg text-left text-sm px-4 hover:bg-gray-100 ${
                       speciality === spec ? "bg-gray-200" : ""
                     }`}
                     onClick={() =>
@@ -103,16 +103,16 @@ const AllDoctorsPage = () => {
 
 
         {/* Doctors List */}
-        <div className="h-[77vh] pb-4 overflow-y-auto hidden-scrollbar flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-6 ">
+        <div className="h-[77vh] pb-4 overflow-y-auto hidden-scrollbar flex-1 grid max-[500px]:grid-cols-1 grid-cols-2 lg:grid-cols-4 gap-4 ">
           {searchQuery?.length > 0 ? (
             filteredData.map((doctor, index) => (
               <Card
                 key={index}
-                className="px-4 py-2 bg-white shadow-md rounded-lg w-full h-[20rem]"
+                className="px-4 py-2 bg-white shadow-md rounded-lg w-max h-[20rem]"
                 onClick={() => navigate(`${doctor?.userId}`)}
               >
                 <CardContent className="flex flex-col items-center justify-between h-full text-center">
-                  <div className="w-48 h-48 rounded-lg bg-gray-200 overflow-hidden mb-2">
+                  <div className="sm:w-48 sm:h-48 w-36 h-36 rounded-lg bg-gray-200 overflow-hidden mb-2">
                     <Avatar className="w-full h-full  rounded-lg">
                       <AvatarImage
                         className="object-cover"
@@ -151,7 +151,7 @@ const AllDoctorsPage = () => {
                 onClick={() => navigate(`${doctor?.userId}`)}
               >
                 <CardContent className="flex flex-col items-center justify-between h-full text-center">
-                  <div className="w-48 h-48 rounded-lg bg-gray-200 overflow-hidden mb-2">
+                  <div className="sm:w-48 sm:h-48 w-36 h-36 rounded-lg bg-gray-200 overflow-hidden mb-2">
                     <Avatar className="w-full h-full  rounded-lg">
                       <AvatarImage
                         className="object-cover"

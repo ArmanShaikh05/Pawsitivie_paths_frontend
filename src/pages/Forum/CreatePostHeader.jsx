@@ -147,7 +147,7 @@ const CreatePostHeader = () => {
             value={postContent}
             onChange={(e) => handleInputChange(e)}
             placeholder="Whats on your mind?"
-            className="max-h-[12rem] border-none outline-none hidden-scrollbar focus-visible:ring-0"
+            className="max-h-[12rem] border-none text-xs sm:text-sm outline-none hidden-scrollbar focus-visible:ring-0"
             maxLength={500}
           />
 
