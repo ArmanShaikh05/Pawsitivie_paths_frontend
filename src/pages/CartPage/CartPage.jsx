@@ -1,4 +1,5 @@
 import CartProductCard from "@/components/Cards/CartProductCard/CartProductCard";
+import EmptyCart from "@/components/EmptyCart/EmptyCartPage";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,32 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import {
-  getCurrency,
-  getGrandTotalPrice,
-  getNumberFromCurrency,
-  getShippingPrice,
-  getTaxPrice,
-  getTotalPrice,
-} from "@/utils/features";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import "./cartpage.scss";
-import { statesArray } from "@/constants/data";
-import axios from "axios";
-import {
-  CHECKOUT,
-  EMPTY_CART_AFTER_PAYMENT,
-  UPDATE_SHIPPING_ADDRESS,
-} from "@/constants/routes";
-import {
-  setCartItems,
-  setUserDetails,
-} from "@/redux/reducers/userDetailsSlice";
-import { loadStripe } from "@stripe/stripe-js";
-import EmptyCart from "@/components/EmptyCart/EmptyCartPage";
 import {
   Sheet,
   SheetContent,
@@ -44,7 +19,31 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import CartItems from "./CartItems";
+import { Textarea } from "@/components/ui/textarea";
+import { statesArray } from "@/constants/data";
+import {
+  CHECKOUT,
+  EMPTY_CART_AFTER_PAYMENT,
+  UPDATE_SHIPPING_ADDRESS,
+} from "@/constants/routes";
+import { useToast } from "@/hooks/use-toast";
+import {
+  setCartItems,
+  setUserDetails,
+} from "@/redux/reducers/userDetailsSlice";
+import {
+  getCurrency,
+  getGrandTotalPrice,
+  getNumberFromCurrency,
+  getShippingPrice,
+  getTaxPrice,
+  getTotalPrice,
+} from "@/utils/features";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./cartpage.scss";
 
 const CartPage = () => {
   const { toast } = useToast();

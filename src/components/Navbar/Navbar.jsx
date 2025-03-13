@@ -47,6 +47,8 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import "./navbar.scss";
+import useWindowSize from "@/hooks/useWindowSize";
+import { Logo } from "@/assets";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -61,6 +63,8 @@ const Navbar = () => {
   const cartItems = useSelector((state) => state.userDetailReducer.cartItems);
   const role = window.localStorage.getItem("pet-role");
   const fallbackText = useRef();
+
+  const { width } = useWindowSize();
 
   const notificationCount = useSelector(
     (state) => state.notificationReducer.notificationCount
@@ -120,9 +124,15 @@ const Navbar = () => {
   return (
     <nav>
       <div className="logo" onClick={() => navigate("/home")}>
-        <h2>
-          <span className="text-red-500">Pawsitive</span> Paths
-        </h2>
+        {width > 700 ? (
+          <h2>
+            <span className="text-red-500">Pawsitive</span> Paths
+          </h2>
+        ) : (
+          <div className="w-10 h-10 rounded-full p-2 bg-white">
+            <img className="w-full h-full object-contain" src={Logo}  alt="logo"/>
+          </div>
+        )}
       </div>
       <div className="flex gap-2 items-center justify-between w-22">
         {/* Notification sheet */}
@@ -216,7 +226,7 @@ const Navbar = () => {
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. 
+                This action cannot be undone.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
