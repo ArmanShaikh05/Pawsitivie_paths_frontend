@@ -11,16 +11,15 @@
 
   .customer-reviews {
     width: 100%;
-    height:100% ;
+    height: 100%;
 
-    .styled-heading{
+    .styled-heading {
       font-size: 1.3rem;
       font-weight: 500;
       color: $primary-color;
       margin-bottom: 0.5rem;
     }
 
-    
     .reviews-container {
       display: flex;
       flex-direction: column;
@@ -28,8 +27,6 @@
       padding-inline: 1rem;
       height: 90%;
       overflow-y: auto;
-
-
 
       .review {
         display: flex;
@@ -74,5 +71,14 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .allreview-container {
+    max-width: 1000px;
+    grid-template-columns: 1fr;
+    margin-inline: auto;
+    height: max-content;
   }
 }

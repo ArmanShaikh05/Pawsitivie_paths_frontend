@@ -37,7 +37,7 @@
       margin: 20px 0px 20px 0px;
     }
 
-    >button {
+    > button {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -53,9 +53,9 @@
       box-shadow: 1.5px 1.5px 3px $orange;
       font-family: "Preahvihear", sans-serif;
 
-      >img{
+      > img {
         width: 20px;
-        aspect-ratio:  1;
+        aspect-ratio: 1;
       }
     }
   }
@@ -150,12 +150,12 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-bottom: 70px;
+    margin-bottom: 80px;
 
     .card-container {
       max-width: 25vw;
       width: 25vw;
-      height: 200px;
+      height: max-content;
       margin: 25px 30px 0px 30px;
       display: flex;
       flex-direction: column;
@@ -175,5 +175,92 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .dark-grey-container {
+    width: 98vw;
+  }
+
+  .dark-grey-container .left-para {
+    font-size: 13px;
+  }
+
+  .dark-grey-container .right-para {
+    font-size: 12px;
+  }
+
+  .planning-container .boxes-container {
+    height: max-content;
+  }
+
+  .home-container .homeContainer-left .home-title .home-titlePlusPng > img {
+    width: 15vw;
+  }
+
+  .home-container .homeContainer-left .home-title {
+    font-size: 55px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .home-container {
+    padding: 20px 0 70px 0;
+    gap: 3rem;
+    flex-direction: column-reverse;
+  }
+
+  .home-container .homeContainer-right > img {
+    width: 60vw;
+    max-width: none;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+  }
+
+  .home-container .homeContainer-left {
+    width: 90vw;
+    align-items: center;
+  }
+
+  .planning-container .boxes-container {
+    display: flex;
+    flex-direction: column;
+    width: 88vw;
+  }
+
+  .planning-container .boxes-container .card-container {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+  }
+
+  .dark-grey-container {
+    width: 98vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: max-content;
+  }
+
+  .dark-grey-container .right-para {
+    width: 58vw;
+  }
+
+  .dark-grey-container .left-para {
+    width: 43vw;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .planning-container .boxes-container .card-container {
+    width: 180%;
+  }
+
+  .home-container .homeContainer-left .home-title {
+    font-size: 45px;
+  }
+
+  .navbar-container {
+    padding: 20px 0;
   }
 }

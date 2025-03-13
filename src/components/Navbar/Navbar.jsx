@@ -136,7 +136,7 @@ const Navbar = () => {
       </div>
       <div className="flex gap-2 items-center justify-between w-22">
         {/* Notification sheet */}
-        <Sheet>
+        <Sheet >
           <SheetTrigger asChild>
             <div
               className="nav-noti"
@@ -154,7 +154,7 @@ const Navbar = () => {
               </span>
             </div>
           </SheetTrigger>
-          <SheetContent>
+          <SheetContent className="w-[90%]">
             <SheetHeader>
               <SheetTitle asChild>
                 <div className="h-6"></div>

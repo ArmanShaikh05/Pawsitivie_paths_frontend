@@ -97,6 +97,7 @@ const AllReviews = () => {
     <>
       {reviewData.length > 0 ? (
         <div className="allreview-container">
+          {console.log(reviewData)}
           <motion.div
             className="bg-gray-200 bg-opacity-30 backdrop-blur-md shadow-xl rounded-xl p-6"
             initial={{ opacity: 0, y: 20 }}

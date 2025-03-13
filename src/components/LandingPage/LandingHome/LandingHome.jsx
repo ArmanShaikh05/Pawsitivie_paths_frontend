@@ -41,7 +41,7 @@ const LandingHome = () => {
     <>
       <div className="home-container">
         <div className="homeContainer-left">
-          <div>
+          <div className="flex flex-col items-center">
             <div className="home-title">
               <div className="home-titlePlusPng">
                 <p>Your Pets </p>

@@ -12,7 +12,7 @@ const SignUp = () => {
     <main className="signup-container">
       <div className="signup-box">
         <h2>signup</h2>
-        <div className="flex space-x-2 border-2 p-2 w-full rounded-[8px] mb-4">
+        <div className="flex space-x-2 border-2 p-2 w-full rounded-[8px] mb-4 max-[450px]:w-[95vw] overflow-x-auto hidden-scrollbar">
           <Button
             variant={userRole === "user" ? "primary" : "outline"}
             className="px-4 py-2 w-full"
