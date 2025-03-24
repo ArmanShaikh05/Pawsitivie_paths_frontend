@@ -158,6 +158,27 @@ const formatDate = (date) => {
   return moment(date).format("LL");
 };
 
+const getCoordinatesFromAddress = async (address) => {
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+    address
+  )}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.length > 0) {
+      const { lat, lon } = data[0];
+      return { latitude: parseFloat(lat), longitude: parseFloat(lon) };
+    } else {
+      return { error: "No location found" };
+    }
+  } catch (error) {
+    console.error("Error fetching coordinates:", error);
+    return null;
+  }
+};
+
 export {
   convertToBase64,
   getCurrency,
@@ -171,4 +192,5 @@ export {
   addOneHourToTime,
   arrangeArrayByDate,
   formatDate,
+  getCoordinatesFromAddress,
 };

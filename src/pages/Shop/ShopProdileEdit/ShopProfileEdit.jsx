@@ -53,7 +53,6 @@ const ShopProfileEdit = () => {
   );
   const [shopName, setShopName] = useState(userData?.shopName || "");
   const [userName, setUserName] = useState(userData?.userName || "");
-  const [shopEmail, setShopEmail] = useState(userData?.shopEmail || "");
   const [newUserId, setNewUserId] = useState(userId || "");
   const [shopDescription, setShopDescription] = useState(
     userData?.shopDescription || ""
@@ -145,7 +144,6 @@ const ShopProfileEdit = () => {
         dataToSend.append("removedImagePublicIds[]", public_id);
       });
       dataToSend.append("shopName", shopName);
-      dataToSend.append("shopEmail", shopEmail);
       dataToSend.append("shopDescription", shopDescription);
       dataToSend.append("shopAddress", shopAddress);
       dataToSend.append("userName", userName);
@@ -165,7 +163,6 @@ const ShopProfileEdit = () => {
     } else {
       dataToSend = {
         shopName,
-        shopEmail,
         shopDescription,
         shopAddress,
         shopContact,
@@ -309,19 +306,6 @@ const ShopProfileEdit = () => {
             onChange={(e) => setNewUserId(e.target.value)}
             id="shopName"
             placeholder="Shop name"
-          />
-        </div>
-
-        <div className="grid w-full items-center gap-1.5">
-          <Label className="text-[1rem]" htmlFor="email">
-            Email
-          </Label>
-          <Input
-            type="email"
-            value={shopEmail}
-            onChange={(e) => setShopEmail(e.target.value)}
-            id="email"
-            placeholder="Shop email"
           />
         </div>
 

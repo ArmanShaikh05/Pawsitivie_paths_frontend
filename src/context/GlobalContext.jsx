@@ -36,6 +36,8 @@ export const GlobalContextProvider = ({ children }) => {
   const [fetchPostreducer, forceUpdateFetchPost] = useReducer((x) => x + 1, 0);
   const [friendRequestCount, setFriendRequestCount] = useState(0);
 
+  const [upadetePasswordEmail, setUpdatePasswordEmail] = useState("");
+
   return (
     <GlobalContext.Provider
       value={{
@@ -71,6 +73,8 @@ export const GlobalContextProvider = ({ children }) => {
         forceUpdateFetchPost,
         friendRequestCount,
         setFriendRequestCount,
+        upadetePasswordEmail,
+        setUpdatePasswordEmail,
       }}
     >
       {children}

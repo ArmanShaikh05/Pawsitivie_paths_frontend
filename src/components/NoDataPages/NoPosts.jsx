@@ -7,7 +7,7 @@ const NoPostsYet = ({ TppMode = false }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-300">
+    <div className="flex w-[95%] items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-300">
       <div className="relative bg-white bg-opacity-90 backdrop-blur-xl rounded-xl shadow-xl p-8 max-w-lg w-full text-center">
         <div className="relative inline-block">
           <MessageSquarePlus className="w-20 h-20 text-blue-500 animate-pulse" />

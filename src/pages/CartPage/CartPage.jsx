@@ -21,16 +21,9 @@ import {
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { statesArray } from "@/constants/data";
-import {
-  CHECKOUT,
-  EMPTY_CART_AFTER_PAYMENT,
-  UPDATE_SHIPPING_ADDRESS,
-} from "@/constants/routes";
+import { CHECKOUT, UPDATE_SHIPPING_ADDRESS } from "@/constants/routes";
 import { useToast } from "@/hooks/use-toast";
-import {
-  setCartItems,
-  setUserDetails,
-} from "@/redux/reducers/userDetailsSlice";
+import { setUserDetails } from "@/redux/reducers/userDetailsSlice";
 import {
   getCurrency,
   getGrandTotalPrice,
@@ -139,29 +132,6 @@ const CartPage = () => {
     }
   };
 
-  const emptyCartAfterPayment = async () => {
-    try {
-      const cancelToken = axios.CancelToken.source();
-      const response = await axios.post(
-        EMPTY_CART_AFTER_PAYMENT,
-        {
-          userId: userData?._id,
-          cartItems: cartData,
-        },
-        {
-          cancelToken: cancelToken.token,
-        }
-      );
-
-      if (response.status === 200) {
-        dispatch(setCartItems([]));
-      }
-    } catch (error) {
-      if (axios.isCancel) return;
-      console.error(error);
-    }
-  };
-
   const checkout = async () => {
     if (address === "" || city === "" || state === "" || pincode === "")
       return toast({
@@ -187,7 +157,6 @@ const CartPage = () => {
 
       if (response.status === 200) {
         localStorage.setItem("paymentStatus", "completed");
-        emptyCartAfterPayment();
       } else {
         localStorage.setItem("paymentStatus", "failed");
       }
@@ -210,7 +179,9 @@ const CartPage = () => {
           <div className="cart-wrapper">
             <div className="flex justify-between items-center ">
               <div>
-                <h3 className="max-[500px]:text-sm text-[1.8rem] font-semibold text-[#3a0751]">Your Cart</h3>
+                <h3 className="max-[500px]:text-sm text-[1.8rem] font-semibold text-[#3a0751]">
+                  Your Cart
+                </h3>
                 <p className="max-[500px]:text-xs text-[0.9rem]">
                   <strong>{cartData.length} items</strong> in your cart
                 </p>

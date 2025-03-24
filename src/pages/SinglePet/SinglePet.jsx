@@ -42,12 +42,10 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   CREATE_SHOP_APPOINTMENT,
   DISLIKE_PET,
-  GET_SHOP_PETS_BY_QUERY,
   GET_SHOP_PETS_DATA,
   LIKE_PET,
-  POST_PET_REVIEW,
+  POST_PET_REVIEW
 } from "@/constants/routes";
-import useFetch from "@/hooks/use-fetch";
 import { useToast } from "@/hooks/use-toast";
 import { setUserDetails } from "@/redux/reducers/userDetailsSlice";
 import { addOneHourToTime } from "@/utils/features";
@@ -67,7 +65,6 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { Owner1 } from "../../assets";
 import "./singlepet.scss";
 
 const SinglePet = () => {
@@ -78,9 +75,9 @@ const SinglePet = () => {
   const navigate = useNavigate();
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
-  const { data: CategoryPets } = useFetch(
-    `${GET_SHOP_PETS_BY_QUERY}?category=${data?.petCategory}`
-  );
+  // const { data: CategoryPets } = useFetch(
+  //   `${GET_SHOP_PETS_BY_QUERY}?category=${data?.petCategory}`
+  // );
   const [mainImage, setMainImage] = useState(data?.petImages[0]?.url);
 
   const [openDialog, setDialogOpen] = useState(false);
@@ -110,7 +107,7 @@ const SinglePet = () => {
   const [shopId, setShopId] = useState("");
 
   const [isCreatingAppointment, setIsCreatingAppointment] = useState(false);
-  // let rating = 0
+  const [recommendedPets, setRecommendedPets] = useState([])
 
   useEffect(() => {
     setLoading(true);
@@ -130,6 +127,7 @@ const SinglePet = () => {
               ) / data?.data?.reviews?.length
           ).toFixed(1) || 0
         );
+        setRecommendedPets(data?.recommendedPets || []);
         setLoading(false);
         setLiked(
           userData?.whishlistPets.includes(data.data?._id) ? true : false
@@ -605,31 +603,7 @@ const SinglePet = () => {
         </div>
       )}
 
-      <div className="pet-testimonial">
-        <h2>Happy Pet Owners</h2>
-        <div className="testimonial-carousels">
-          <Carousel
-            opts={{
-              align: "start",
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
-              {Array.from({ length: 7 }).map((_, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
-                  <div className="p-1 cursor-pointer">
-                    <img src={Owner1} alt="Dog" />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden sm:block" />
-            <CarouselNext className="hidden sm:block" />
-          </Carousel>
-        </div>
-      </div>
-
-      {CategoryPets && CategoryPets?.length > 0 && (
+      {recommendedPets && recommendedPets?.length > 0 && (
         <div className="similar-pets">
           <p>whats new?</p>
           <h2>See more pets</h2>
@@ -641,7 +615,7 @@ const SinglePet = () => {
               className="w-full"
             >
               <CarouselContent>
-                {CategoryPets?.map((pet, index) => (
+                {recommendedPets?.map((pet, index) => (
                   <CarouselItem
                     key={index}
                     className="md:basis-1/2 lg:basis-1/4"
@@ -655,7 +629,7 @@ const SinglePet = () => {
             </Carousel>
           </div>
 
-          <Button className="view-all-badge" variant="default">
+          <Button className="view-all-badge" variant="default" onClick={()=>navigate("/pets")}>
             View All
           </Button>
         </div>

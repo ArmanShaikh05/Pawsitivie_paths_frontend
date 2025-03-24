@@ -42,6 +42,9 @@ const AppointmentCard = ({ mode, appointment, role, refresh }) => {
         appointmentId: appointment?._id,
         clientId: appointment?.clientId,
         appointmentDate: appointment?.appointmentDate,
+        clientEmail: appointment?.clientDetails?.email,
+        clientName: `${appointment?.clientDetails?.firstName} ${appointment?.clientDetails?.lastName}`,
+        appointmentTime: appointment?.appointmentTime,
       });
       if (response.status === 200) {
         refresh();
@@ -176,7 +179,7 @@ const AppointmentCard = ({ mode, appointment, role, refresh }) => {
             />
           )}
         </div>
-        <div className="flex gap-4 flex-col sm:flex-row">
+        <div className="flex w-full gap-4 flex-col sm:flex-row">
           <div className="flex-1">
             {role && role === "petDoctor" ? (
               <h3 className="text-lg font-medium">

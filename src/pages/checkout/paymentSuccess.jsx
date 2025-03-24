@@ -1,9 +1,39 @@
 import { Button } from "@/components/ui/button";
+import { EMPTY_CART_AFTER_PAYMENT } from "@/constants/routes";
+import { setCartItems } from "@/redux/reducers/userDetailsSlice";
+import axios from "axios";
 import { CheckCircle } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
+  const cartData = useSelector((state) => state.userDetailReducer.cartItems);
+  const userData = useSelector((state) => state.userDetailReducer.userData);
+  const dispatch = useDispatch();
+
+  const emptyCartAfterPayment = async () => {
+      try {
+        const cancelToken = axios.CancelToken.source();
+        const response = await axios.post(
+          EMPTY_CART_AFTER_PAYMENT,
+          {
+            userId: userData?._id,
+            cartItems: cartData,
+          },
+          {
+            cancelToken: cancelToken.token,
+          }
+        );
+  
+        if (response.status === 200) {
+          dispatch(setCartItems([]));
+        }
+      } catch (error) {
+        if (axios.isCancel) return;
+        console.error(error);
+      }
+    };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -19,10 +49,11 @@ const PaymentSuccess = () => {
           </p>
           <div className="mt-6 w-full">
             <Button
-              variant="outline"
+              variant="outline"s
               className="w-full cursor-pointer bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white hover:from-green-500 hover:via-green-600 hover:to-green-700"
               onClick={() => {
                 localStorage.removeItem("paymentStatus");
+                emptyCartAfterPayment();
                 navigate("/home");
               }}
             >

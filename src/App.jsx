@@ -8,13 +8,23 @@ import FavouritePets from "./components/Whishlist-Page-Components/Pets/Favourite
 import FavouriteShops from "./components/Whishlist-Page-Components/Shops/FavouriteShops";
 import AppLayout from "./layouts/AppLayout";
 import AllReviews from "./pages/AllReviews/AllReviews";
+import Appointments from "./pages/Appointments/Appointments";
+import ForgotPassword from "./pages/Authentication/ForgotPassword/ForgotPassword";
 import Login from "./pages/Authentication/Login/Login";
 import SignUp from "./pages/Authentication/SignUp/SignUp";
+import UpdatePassword from "./pages/Authentication/UpdatePassword/UpdatePassword";
 import CartPage from "./pages/CartPage/CartPage";
 import PaymentFailed from "./pages/checkout/paymentFailed";
 import PaymentSuccess from "./pages/checkout/paymentSuccess";
+import AllDoctorsPage from "./pages/Doctors/AllDoctorsPage";
+import DoctorHomePage from "./pages/Doctors/DoctorHomePage.jsx/DoctorHomePage";
+import DoctorProfile from "./pages/Doctors/DoctorProfile/DoctorProfile";
+import DoctorProfileEdit from "./pages/Doctors/DoctorProfileEdit/DoctorProfileEdit";
+import DoctorsProfile from "./pages/Doctors/DoctorsProfile";
 import EditProfile from "./pages/EditProfile/EditProfile";
 import UserEvents from "./pages/Events/UserEvents";
+import ForumPage from "./pages/Forum/ForumPage";
+import MobileMessage from "./pages/Forum/MobileMessage";
 import HomePage from "./pages/Home/HomePage";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import ManageOwnedPets from "./pages/ManageOwnedPets/ManageOwnedPets";
@@ -31,19 +41,11 @@ import ShopProfileEdit from "./pages/Shop/ShopProdileEdit/ShopProfileEdit";
 import ShopProfile from "./pages/Shop/ShopProfile/ShopProfile";
 import ShopPage from "./pages/ShopPage/ShopPage";
 import SinglePet from "./pages/SinglePet/SinglePet";
+import TPP_Profile from "./pages/TPP_Profile/TPP_Profile";
 import OrderHistory from "./pages/UserOrderHistory/OrderHistory";
 import WhishListPage from "./pages/WhishlistPage/WhishListPage";
 import { addNewNotifications } from "./redux/reducers/notificationsSlice";
 import { useAuth, useGlobalVariables, useSocket } from "./utils/useContext";
-import Appointments from "./pages/Appointments/Appointments";
-import AllDoctorsPage from "./pages/Doctors/AllDoctorsPage";
-import ForumPage from "./pages/Forum/ForumPage";
-import TPP_Profile from "./pages/TPP_Profile/TPP_Profile";
-import DoctorsProfile from "./pages/Doctors/DoctorsProfile";
-import DoctorHomePage from "./pages/Doctors/DoctorHomePage.jsx/DoctorHomePage";
-import DoctorProfile from "./pages/Doctors/DoctorProfile/DoctorProfile";
-import DoctorProfileEdit from "./pages/Doctors/DoctorProfileEdit/DoctorProfileEdit";
-import MobileMessage from "./pages/Forum/MobileMessage";
 
 const App = () => {
   const { currentUser } = useAuth();
@@ -95,6 +97,8 @@ const App = () => {
         >
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/update-password" element={<UpdatePassword />} />
         </Route>
 
         <Route
@@ -166,7 +170,15 @@ const App = () => {
 
             <Route
               path="/profile/:userId"
-              element={role === "user" ? <Profile />  : role === "petDoctor" ?  <DoctorProfile /> : <ShopProfile />}
+              element={
+                role === "user" ? (
+                  <Profile />
+                ) : role === "petDoctor" ? (
+                  <DoctorProfile />
+                ) : (
+                  <ShopProfile />
+                )
+              }
             />
 
             <Route path="/profile/view/:userId" element={<TPP_Profile />} />
@@ -179,7 +191,15 @@ const App = () => {
 
             <Route
               path="/profile/:userId/edit"
-              element={role === "user" ? <EditProfile /> : role === "petDoctor" ? <DoctorProfileEdit /> : <ShopProfileEdit />}
+              element={
+                role === "user" ? (
+                  <EditProfile />
+                ) : role === "petDoctor" ? (
+                  <DoctorProfileEdit />
+                ) : (
+                  <ShopProfileEdit />
+                )
+              }
             />
 
             {/* SHOP ONLY ROUTES START HERE */}

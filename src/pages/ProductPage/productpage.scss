@@ -200,6 +200,36 @@
         }
       }
     }
+
+    .similar-pets {
+      width: 100%;
+      margin: 4rem auto 1rem auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      > p {
+        font-size: 0.9rem;
+        font-weight: 400;
+      }
+
+      > h2 {
+        font-size: 1.3rem;
+        font-weight: 500;
+        color: $primary-color;
+        margin-bottom: 0.5rem;
+      }
+
+      .view-all-badge {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: $color-blue-700;
+        color: #fff;
+        width: max-content;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+      }
+    }
   }
 }
 
@@ -240,6 +270,16 @@
     font-size: 1.2rem;
   }
 
+  .product-conatainer .outer-wrapper .similar-pets {
+    width: 100%;
+    > h2 {
+      font-size: 1rem;
+    }
+    > p {
+      font-size: 0.8rem;
+    }
+  }
+
   .product-conatainer
     .outer-wrapper
     .customer-reviews
@@ -260,13 +300,28 @@
     font-size: 0.8rem;
   }
 
-  .product-conatainer .outer-wrapper .customer-reviews .reviews-container .review .review-header .reviewer-name .review-star-date > p {
+  .product-conatainer
+    .outer-wrapper
+    .customer-reviews
+    .reviews-container
+    .review
+    .review-header
+    .reviewer-name
+    .review-star-date
+    > p {
     font-size: 0.7rem;
-}
+  }
 
-.product-conatainer .outer-wrapper .customer-reviews .reviews-container .review .review-header .reviewer-name > p {
+  .product-conatainer
+    .outer-wrapper
+    .customer-reviews
+    .reviews-container
+    .review
+    .review-header
+    .reviewer-name
+    > p {
     font-size: 0.8rem;
-}
+  }
 }
 
 @media screen and (max-width: 680px) {

@@ -7,7 +7,7 @@ const NoOwnedPets = ({ TppProfile = false }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 to-purple-100">
+    <div className="flex w-[95%] items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 to-purple-100">
       <div className="relative bg-white bg-opacity-90 backdrop-blur-xl rounded-xl shadow-xl p-8 max-w-lg w-full text-center">
         <div className="relative inline-block">
           <PawPrint className="w-20 h-20 text-purple-400 animate-bounce" />

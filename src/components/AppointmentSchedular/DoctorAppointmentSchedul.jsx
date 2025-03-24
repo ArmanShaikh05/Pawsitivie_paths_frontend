@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent } from "@/components/ui/card";
 import { GET_DOCTOR_DETAILS_BY_USERID } from "@/constants/routes";
-import { generateTimeSlots } from "@/utils/features";
+import { generateTimeSlots, getCoordinatesFromAddress } from "@/utils/features";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import MapComponent from "../MapComponent/MapComponent";
 
 const DoctorAppointmentSchedule = ({
   doctorId,
@@ -29,6 +30,8 @@ const DoctorAppointmentSchedule = ({
   const [timeSlots, setTimeSlots] = useState([]);
 
   const [doctorData, setDoctorData] = useState();
+  const [coordinates, setCoordinates] = useState(null);
+  const [noLocationError, setNoLocationError] = useState("");
 
   useEffect(() => {
     try {
@@ -63,6 +66,32 @@ const DoctorAppointmentSchedule = ({
       console.log(error);
     }
   }, [doctorId]);
+
+  useEffect(() => {
+    if (
+      doctorData?.address &&
+      doctorData?.state &&
+      doctorData?.city &&
+      doctorData?.pincode
+    ) {
+      getCoordinatesFromAddress(
+        `${doctorData?.address} ${doctorData?.state} ${doctorData?.city} ${doctorData?.pincode}`
+      ).then((coords) => {
+        if (coords) {
+          if (coords.error) {
+            setNoLocationError(coords.error);
+          } else {
+            setCoordinates(coords);
+          }
+        }
+      });
+    }
+  }, [
+    doctorData?.address,
+    doctorData?.city,
+    doctorData?.pincode,
+    doctorData?.state,
+  ]);
 
   return (
     <div className="flex justify-center w-max">
@@ -116,7 +145,6 @@ const DoctorAppointmentSchedule = ({
                 mode="single"
                 selected={selectedDate}
                 onSelect={(date) => setSelectedDate(date)}
-                
               />
               <div>
                 {timeSlots?.map((timeGroup) => (
@@ -153,12 +181,27 @@ const DoctorAppointmentSchedule = ({
                 {doctorData?.userName}
               </p>
             </div>
-            <div className="h-48 bg-gray-100 rounded-md flex items-center justify-center mb-6">
-              <span className="text-gray-500">Map Placeholder</span>
-            </div>
+            {doctorData?.address &&
+              doctorData?.state &&
+              doctorData?.city &&
+              doctorData?.pincode && (
+                <div className="h-48 w-full bg-gray-100 rounded-md flex items-center justify-center mb-6">
+                  {noLocationError ? (
+                    <p className="text-sm tracking-tighter">
+                      {noLocationError}
+                    </p>
+                  ) : coordinates ? (
+                    <MapComponent
+                      latitude={coordinates.latitude}
+                      longitude={coordinates.longitude}
+                    />
+                  ) : (
+                    <p className="text-sm">Loading map...</p>
+                  )}
+                </div>
+              )}
             <p className="text-gray-700 text-sm">
-              <strong>Location:</strong> {doctorData?.address}
-              {""}
+              <strong>Location:</strong> {doctorData?.address},{" "}
               {doctorData?.city}, {doctorData?.state} , {doctorData?.pincode}
             </p>
             <p className="text-gray-700 text-sm mt-4">

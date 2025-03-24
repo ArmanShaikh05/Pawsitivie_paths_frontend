@@ -6,8 +6,9 @@ import { Calendar } from "@/components/ui/calendar";
 import { Input } from "../ui/input";
 import axios from "axios";
 import { GET_SHOP_DETAILS_BY_PETID } from "@/constants/routes";
-import { generateTimeSlots } from "@/utils/features";
+import { generateTimeSlots, getCoordinatesFromAddress } from "@/utils/features";
 import { Textarea } from "../ui/textarea";
+import MapComponent from "../MapComponent/MapComponent";
 
 const AppointmentScheduler = ({
   petId,
@@ -30,6 +31,8 @@ const AppointmentScheduler = ({
   const [timeSlots, setTimeSlots] = useState([]);
 
   const [petShopData, setPetShopData] = useState();
+  const [coordinates, setCoordinates] = useState(null);
+  const [noLocationError, setNoLocationError] = useState("");
 
   useEffect(() => {
     try {
@@ -65,6 +68,20 @@ const AppointmentScheduler = ({
       console.log(error);
     }
   }, [petId]);
+
+  useEffect(() => {
+    if (petShopData?.shopLocation) {
+      getCoordinatesFromAddress(petShopData.shopLocation).then((coords) => {
+        if (coords) {
+          if (coords.error) {
+            setNoLocationError(coords.error);
+          } else {
+            setCoordinates(coords);
+          }
+        }
+      });
+    }
+  }, [petShopData?.shopLocation]);
 
   return (
     <div className="flex justify-center w-max">
@@ -155,7 +172,22 @@ const AppointmentScheduler = ({
               </p>
             </div>
             <div className="h-48 bg-gray-100 rounded-md flex items-center justify-center mb-6">
-              <span className="text-gray-500">Map Placeholder</span>
+              {petShopData?.shopLocation && (
+                <div className="h-48 w-full bg-gray-100 rounded-md flex items-center justify-center mb-6">
+                  {noLocationError ? (
+                    <p className="text-sm tracking-tighter">
+                      {noLocationError}
+                    </p>
+                  ) : coordinates ? (
+                    <MapComponent
+                      latitude={coordinates.latitude}
+                      longitude={coordinates.longitude}
+                    />
+                  ) : (
+                    <p className="text-sm">Loading map...</p>
+                  )}
+                </div>
+              )}
             </div>
             <p className="text-gray-700 text-sm">
               <strong>Location:</strong> {petShopData?.shopLocation}

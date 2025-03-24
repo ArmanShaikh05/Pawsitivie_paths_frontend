@@ -6,7 +6,7 @@ const NoBookmarks = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-200">
+    <div className="flex w-[95%] items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-200">
       <div className="relative bg-white bg-opacity-90 backdrop-blur-lg rounded-xl shadow-xl p-8 max-w-lg w-full text-center">
         <div className="relative inline-block">
           <Bookmark className="w-20 h-20 text-gray-400 animate-pulse" />

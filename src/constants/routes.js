@@ -182,3 +182,12 @@ export const POST_DOCTOR_REVIEW = `${import.meta.env.VITE_SERVER}/api/v1/doctor/
 
 export const POST_SHOP_REVIEW = `${import.meta.env.VITE_SERVER}/api/v1/shop/post-review`
 
+export const SEND_OTP = `${import.meta.env.VITE_SERVER}/api/v1/otp/send-otp`
+
+export const VERIFY_OTP = `${import.meta.env.VITE_SERVER}/api/v1/otp/verify-otp`
+
+export const CHECK_DOCTOR_EMAIL_BEFORE_LOGIN = `${import.meta.env.VITE_SERVER}/api/v1/doctor/check-email-before-login`
+
+export const CHECK_SHOP_OWNER_EMAIL_BEFORE_LOGIN = `${import.meta.env.VITE_SERVER}/api/v1/shop/check-email-before-login`
+
+export const CHECK_USER_EMAIL_BEFORE_LOGIN = `${import.meta.env.VITE_SERVER}/api/v1/user/check-email-before-login`

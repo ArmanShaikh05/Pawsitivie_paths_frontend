@@ -32,7 +32,7 @@ import {
 import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./shoppage.scss";
 import { useToast } from "@/hooks/use-toast";
 import { setUserDetails } from "@/redux/reducers/userDetailsSlice";
@@ -66,6 +66,7 @@ const ShopPage = () => {
   const [liked, setLiked] = useState(false);
   const { favouriteShopsForceUpdate } = useGlobalVariables();
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const [mainImage, setMainImage] = useState("");
   const fallbackText = data?.shopName
@@ -493,7 +494,7 @@ const ShopPage = () => {
             </Carousel>
           </div>
 
-          <Button className="view-all-badge" variant="primary">
+          <Button className="view-all-badge" variant="primary" onClick={()=>navigate("/pets")}>
             View All
           </Button>
         </div>

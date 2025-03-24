@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GET_DOCTOR_DETAILS, GET_SHOP_DETAILS, GET_USER_DETAILS } from "@/constants/routes";
+import {
+  CHECK_DOCTOR_EMAIL_BEFORE_LOGIN,
+  CHECK_SHOP_OWNER_EMAIL_BEFORE_LOGIN,
+  CHECK_USER_EMAIL_BEFORE_LOGIN,
+  GET_DOCTOR_DETAILS,
+  GET_SHOP_DETAILS,
+  GET_USER_DETAILS,
+} from "@/constants/routes";
 import { useToast } from "@/hooks/use-toast";
 import { setUserDetails } from "@/redux/reducers/userDetailsSlice";
 import axios from "axios";
@@ -28,97 +35,161 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const handleUserLogin = () => {
+  const handleUserLogin = async () => {
     if (email === "" || password === "")
-      return toast.error("Please fill all fields");
-    setLogging(true);
-    login(email, password)
-      .then(({ user }) => {
-        const cancelToken = axios.CancelToken.source();
-        axios
-          .get(`${GET_USER_DETAILS}/${user?.uid}`, {
-            cancelToken: cancelToken.token,
-          })
-          .then(({ data }) => {
-            setLogging(false);
-            dispatch(setUserDetails(data.data));
-            window.localStorage.setItem("pet-role", data.data?.role);
-            navigate("/home");
-            toast({
-              title: "Login Successfull",
-            });
-          });
-      })
-      .catch((err) => {
-        if (axios.isCancel(err)) return setLogging(false);
-        toast({
-          variant: "destructive",
-          title: err.message,
-        });
-        setLogging(false);
+      return toast({
+        title: "Please fill all fields",
+        variant: "destructive",
       });
+    setLogging(true);
+    try {
+      const response = await axios.post(CHECK_USER_EMAIL_BEFORE_LOGIN, {
+        email: email,
+      });
+
+      if (response.status === 200) {
+        login(email, password)
+          .then(({ user }) => {
+            const cancelToken = axios.CancelToken.source();
+            axios
+              .get(`${GET_USER_DETAILS}/${user?.uid}`, {
+                cancelToken: cancelToken.token,
+              })
+              .then(({ data }) => {
+                setLogging(false);
+                dispatch(setUserDetails(data.data));
+                window.localStorage.setItem("pet-role", data.data?.role);
+                navigate("/home");
+                toast({
+                  title: "Login Successfull",
+                });
+              });
+          })
+          .catch((err) => {
+            if (axios.isCancel(err)) return setLogging(false);
+            toast({
+              variant: "destructive",
+              title: err.message,
+            });
+            setLogging(false);
+          });
+      }
+    } catch (error) {
+      if (error.response.data?.message) {
+        return toast({
+          variant: "destructive",
+          title: error.response.data.message,
+        });
+      }
+      console.log(error);
+    } finally {
+      setLogging(false);
+    }
   };
 
-  const handleShopLogin = () => {
+  const handleShopLogin = async () => {
     if (email === "" || password === "")
-      return toast.error("Please fill all fields");
-    setLogging(true);
-    login(email, password)
-      .then(({ user }) => {
-        const cancelToken = axios.CancelToken.source();
-        axios
-          .get(`${GET_SHOP_DETAILS}/${user?.uid}`, {
-            cancelToken: cancelToken.token,
-          })
-          .then(({ data }) => {
-            setLogging(false);
-            dispatch(setUserDetails(data.data));
-            window.localStorage.setItem("pet-role", data.data?.role);
-            navigate("/home");
-            toast({
-              title: "Login Successfull",
-            });
-          });
-      })
-      .catch((err) => {
-        if (axios.isCancel(err)) return setLogging(false);
-        toast({
-          variant: "destructive",
-          title: err.message,
-        });
-        setLogging(false);
+      return toast({
+        title: "Please fill all fields",
+        variant: "destructive",
       });
+    setLogging(true);
+
+    try {
+      const response = await axios.post(CHECK_SHOP_OWNER_EMAIL_BEFORE_LOGIN, {
+        email: email,
+      });
+
+      if (response.status === 200) {
+        login(email, password)
+          .then(({ user }) => {
+            const cancelToken = axios.CancelToken.source();
+            axios
+              .get(`${GET_SHOP_DETAILS}/${user?.uid}`, {
+                cancelToken: cancelToken.token,
+              })
+              .then(({ data }) => {
+                setLogging(false);
+                dispatch(setUserDetails(data.data));
+                window.localStorage.setItem("pet-role", data.data?.role);
+                navigate("/home");
+                toast({
+                  title: "Login Successfull",
+                });
+              });
+          })
+          .catch((err) => {
+            if (axios.isCancel(err)) return setLogging(false);
+            toast({
+              variant: "destructive",
+              title: err.message,
+            });
+            setLogging(false);
+          });
+      }
+    } catch (error) {
+      if (error.response.data?.message) {
+        return toast({
+          variant: "destructive",
+          title: error.response.data.message,
+        });
+      }
+      console.log(error);
+    } finally {
+      setLogging(false);
+    }
   };
 
-  const handlePetDoctorLogin = () => {
+  const handlePetDoctorLogin = async () => {
     if (email === "" || password === "")
-      return toast.error("Please fill all fields");
-    setLogging(true);
-    login(email, password)
-      .then(({ user }) => {
-        const cancelToken = axios.CancelToken.source();
-        axios
-          .get(`${GET_DOCTOR_DETAILS}/${user?.uid}`, {
-            cancelToken: cancelToken.token,
-          })
-          .then(({ data }) => {
-            setLogging(false);
-            dispatch(setUserDetails(data.data));
-            window.localStorage.setItem("pet-role", data.data?.role);
-            navigate("/home");
-            toast({
-              title: "Login Successfull",
-            });
-          });
-      })
-      .catch((err) => {
-        if (axios.isCancel(err)) return setLogging(false);
-        toast({
-          variant: "destructive",
-          title: err.message,
-        });
-        setLogging(false);
+      return toast({
+        title: "Please fill all fields",
+        variant: "destructive",
       });
+    setLogging(true);
+    try {
+      const response = await axios.post(CHECK_DOCTOR_EMAIL_BEFORE_LOGIN, {
+        email: email,
+      });
+
+      if (response.status === 200) {
+        login(email, password)
+          .then(({ user }) => {
+            const cancelToken = axios.CancelToken.source();
+            axios
+              .get(`${GET_DOCTOR_DETAILS}/${user?.uid}`, {
+                cancelToken: cancelToken.token,
+              })
+              .then(({ data }) => {
+                setLogging(false);
+                dispatch(setUserDetails(data.data));
+                window.localStorage.setItem("pet-role", data.data?.role);
+                navigate("/home");
+                toast({
+                  title: "Login Successfull",
+                });
+              });
+          })
+          .catch((err) => {
+            if (axios.isCancel(err)) return setLogging(false);
+            toast({
+              variant: "destructive",
+              title: err.message,
+            });
+            setLogging(false);
+          });
+      }
+    } catch (error) {
+      if (error.response.data?.message) {
+        return toast({
+          variant: "destructive",
+          title: error.response.data.message,
+        });
+      }
+      console.log(error);
+    } finally {
+      setLogging(false);
+    }
   };
 
   return (
@@ -166,7 +237,11 @@ const Login = () => {
                   )}
                 </div>
 
-                <span>forgot password?</span>
+                <span>
+                  <Link to={"/forgot-password?type=user"}>
+                    forgot password?
+                  </Link>
+                </span>
 
                 <Button
                   disabled={logging}
@@ -208,7 +283,11 @@ const Login = () => {
                   )}
                 </div>
 
-                <span>forgot password?</span>
+                <span>
+                  <Link to={"/forgot-password?type=shopOwner"}>
+                    forgot password?
+                  </Link>
+                </span>
 
                 <Button
                   disabled={logging}
@@ -250,8 +329,11 @@ const Login = () => {
                   )}
                 </div>
 
-                <span>forgot password?</span>
-
+                <span>
+                  <Link to={"/forgot-password?type=petDoctor"}>
+                    forgot password?
+                  </Link>
+                </span>
                 <Button
                   disabled={logging}
                   onClick={handlePetDoctorLogin}

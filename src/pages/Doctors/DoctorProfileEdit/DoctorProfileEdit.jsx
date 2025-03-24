@@ -53,7 +53,6 @@ const DoctorProfileEdit = () => {
   // STATES
   const [profilePicBlob, setProfilePicBlob] = useState(null);
   const [name, setName] = useState(userData?.userName || "");
-  const [email, setEmail] = useState(userData?.email || "");
   const [address, setAddress] = useState(userData?.address || "");
   const [bio, setBio] = useState(userData?.bio || "");
   const [speciality, setSpeciality] = useState(userData?.speciality || "");
@@ -104,7 +103,6 @@ const DoctorProfileEdit = () => {
       formData.append("file", profilePicRef.current.files[0]);
       formData.append("userId", userId);
       formData.append("name", name);
-      formData.append("email", email);
       formData.append("bio", bio);
       formData.append("address", address);
       formData.append("mobileNumber", mobileNumber);
@@ -126,7 +124,6 @@ const DoctorProfileEdit = () => {
     } else {
       formData = {
         name,
-        email,
         address,
         bio,
         mobileNumber,
@@ -328,17 +325,6 @@ const DoctorProfileEdit = () => {
               onChange={(e) => setName(e.target.value)}
               id="name"
               placeholder="Name"
-            />
-          </div>
-
-          <div className="grid w-full items-center gap-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              id="email"
-              placeholder="Email"
             />
           </div>
 

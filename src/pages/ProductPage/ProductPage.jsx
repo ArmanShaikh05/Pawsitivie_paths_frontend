@@ -1,10 +1,11 @@
+import ProductCard from "@/components/Cards/ProductCard/ProductCard";
 import Loader from "@/components/Loader/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
-  CarouselItem,
+  CarouselItem
 } from "@/components/ui/carousel";
 import {
   Dialog,
@@ -31,6 +32,7 @@ import {
   POST_PRODUCT_REVIEW,
 } from "@/constants/routes";
 import { useToast } from "@/hooks/use-toast";
+import { setCartItems } from "@/redux/reducers/userDetailsSlice";
 import axios from "axios";
 import moment from "moment";
 import { useEffect, useReducer, useState } from "react";
@@ -38,14 +40,13 @@ import { FaRegStar, FaStar } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import "./productpage.scss";
-import { setCartItems } from "@/redux/reducers/userDetailsSlice";
 
 const ProductPage = () => {
   const [openDialog, setDialogOpen] = useState(false);
   const { toast } = useToast();
   const { productId } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [data, setData] = useState();
   const userData = useSelector((state) => state.userDetailReducer.userData);
   const [reducerValue, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -66,6 +67,7 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(0);
   const [size, setSize] = useState(null);
   const [addingToCart, setAddingToCart] = useState(false);
+  const [recommendedProducts, setRecommendedProducts] = useState([]);
 
   // STATES END HERE
 
@@ -91,6 +93,7 @@ const ProductPage = () => {
               ).toFixed(1)
             : 0
         );
+        setRecommendedProducts(data?.recommendedProducts);
         setLoading(false);
       })
       .catch((err) => {
@@ -183,14 +186,12 @@ const ProductPage = () => {
         }
       );
 
-      if(response.status === 200){
-        dispatch(setCartItems(response.data.data.cartItems || []))
+      if (response.status === 200) {
+        dispatch(setCartItems(response.data.data.cartItems || []));
         toast({
           title: "Product added to cart successfully",
         });
       }
-
-      
     } catch (error) {
       console.log(error);
       toast({
@@ -218,10 +219,7 @@ const ProductPage = () => {
             >
               <CarouselContent className="-mt-1 h-[300px] md:h-[500px]">
                 {data?.productImages?.map((item, index) => (
-                  <CarouselItem
-                    key={index}
-                    className="basis-1/4 lg:basis-1/5"
-                  >
+                  <CarouselItem key={index} className="basis-1/4 lg:basis-1/5">
                     <div
                       className="p-1 cursor-pointer flex items-center justify-center "
                       onClick={() => setMainImage(item.url)}
@@ -294,7 +292,7 @@ const ProductPage = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value={null} defaultValue >
+                    <SelectItem value={null} defaultValue>
                       Select Size
                     </SelectItem>
                     {data?.availableSizes &&
@@ -336,6 +334,41 @@ const ProductPage = () => {
           </h2>
           <p>{data?.productDescription}</p>
         </div>
+
+        {recommendedProducts && recommendedProducts?.length > 0 && (
+          <div className="similar-pets">
+            <p>whats new?</p>
+            <h2>See similar products</h2>
+            <div className="testimonial-carousels">
+              <Carousel
+                opts={{
+                  align: "start",
+                }}
+                className="w-full"
+              >
+                <CarouselContent>
+                  {recommendedProducts?.map((item, index) => (
+                    <CarouselItem
+                      key={index}
+                      className="md:basis-1/2 lg:basis-1/4"
+                    >
+                      <ProductCard
+                        productData={item}
+                        path={`/market/${item?._id}`}
+                        forceUpdate={forceUpdate}
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            </div>
+
+            <Button className="view-all-badge" variant="default" onClick={()=>navigate("/market")}>
+              View All
+            </Button>
+          </div>
+        )}
+
         <div className="customer-reviews">
           <div className="review-header w-full flex max-[680px]:flex-col justify-between pr-4 mb-8">
             <h2 className={"h-3rem text-[1.3rem]  mb-4 font-[500]"}>
@@ -349,7 +382,7 @@ const ProductPage = () => {
                 variant="primary"
                 onClick={() => navigate("product-reviews")}
               >
-                View all 
+                View all
               </Button>
             </div>
             {openDialog && (

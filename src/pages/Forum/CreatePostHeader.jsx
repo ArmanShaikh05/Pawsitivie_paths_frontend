@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 const CreatePostHeader = () => {
   const userId = useSelector((state) => state.userDetailReducer.userData._id);
   const userData = useSelector((state) => state.userDetailReducer.userData);
-  const {forceUpdateFetchPost} = useGlobalVariables()
+  const { forceUpdateFetchPost } = useGlobalVariables();
 
   const [postContent, setPostContent] = useState("");
   const [showEmogiPicker, setShowEmogiPicker] = useState(false);
@@ -65,6 +65,12 @@ const CreatePostHeader = () => {
         variant: "destructive",
       });
 
+      if (imagesFiles.length === 0)
+        return toast({
+          title: "Please select atleast 1 image",
+          variant: "destructive",
+        });
+
     try {
       setIsCreatingPost(true);
 
@@ -79,31 +85,45 @@ const CreatePostHeader = () => {
 
       const response = await axios.post(CREATE_NEW_POST, dataToSend);
 
-      if (response.status === 200){
-
-        setImagesBlob([])
-        setImagesFiles([])
-        setTags([])
-        setPostContent('')
-        forceUpdateFetchPost()
+      if (response.status === 200) {
+        setImagesBlob([]);
+        setImagesFiles([]);
+        setTags([]);
+        setPostContent("");
+        forceUpdateFetchPost();
         return toast({
           title: "Post created successfully",
-        });}
+        });
+      }
     } catch (error) {
       if (axios.isCancel(error)) return;
+      if (error.status === 400 && error.response.data?.message) {
+        return toast({
+          title: error.response.data.message,
+          variant: "destructive",
+        });
+      }
       console.log(error);
     } finally {
       setIsCreatingPost(false);
     }
   };
 
-
   return (
     <div className="w-full mb-4 pb-9 relative flex flex-col gap-2 border px-4 py-2 justify-center rounded-lg shadow-lg">
       <div className="w-full flex gap-2 ">
         <Avatar>
-          <AvatarImage src={userData?.profilePic?.url} className="object-cover" alt="@shadcn" />
-          <AvatarFallback>{userData?.userName?.split(" ").map((word) => word.charAt(0)).join("")}</AvatarFallback>
+          <AvatarImage
+            src={userData?.profilePic?.url}
+            className="object-cover"
+            alt="@shadcn"
+          />
+          <AvatarFallback>
+            {userData?.userName
+              ?.split(" ")
+              .map((word) => word.charAt(0))
+              .join("")}
+          </AvatarFallback>
         </Avatar>
         <input
           type="file"
@@ -150,8 +170,6 @@ const CreatePostHeader = () => {
             className="max-h-[12rem] border-none text-xs sm:text-sm outline-none hidden-scrollbar focus-visible:ring-0"
             maxLength={500}
           />
-
-          
         </div>
         <div className="w-full flex gap-2 pl-12 pr-16 absolute bottom-2">
           <div className="flex flex-1 gap-2">
