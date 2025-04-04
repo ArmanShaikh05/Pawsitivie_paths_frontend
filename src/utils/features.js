@@ -179,6 +179,15 @@ const getCoordinatesFromAddress = async (address) => {
   }
 };
 
+function convertAmount(amount) {
+  if (amount === 0) return 0; // If already 0, return 0
+
+  // Remove currency symbol and commas, then convert to number
+  const numericValue = parseFloat(amount.replace(/[^0-9.]/g, ""));
+
+  return isNaN(numericValue) ? 0 : numericValue;
+}
+
 export {
   convertToBase64,
   getCurrency,
@@ -193,4 +202,5 @@ export {
   arrangeArrayByDate,
   formatDate,
   getCoordinatesFromAddress,
+  convertAmount,
 };

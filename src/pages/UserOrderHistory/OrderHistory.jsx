@@ -11,7 +11,7 @@ const OrderHistory = () => {
   const userData = useSelector((state) => state.userDetailReducer.userData);
   const { dateRange } = useGlobalVariables();
 
-  const [ordersData, setOrdersData] = useState([]);
+  const [updatedData, setUpdatedData] = useState([]);
 
   const [noOrderError, setNoOrderError] = useState(false);
   useEffect(() => {
@@ -31,29 +31,40 @@ const OrderHistory = () => {
         )
         .then(({ data }) => {
           if (data.data && data.data.length > 0) {
-            let formattedOrders = [];
+            let updatedFormattedOrders = [];
             let index = 0;
-            data.data.forEach((order) => {
-              const tempFormattedOrders = order?.products.map((product) => ({
+            // console.log(data.data);
+            data?.data.forEach((order) => {
+
+              const productImages = order?.products.map((product) => {
+                return product.productId.productImages?.[0]?.url;
+              });
+
+              const productFallbacks = order?.products.map((product) => {
+                return product?.productId?.productName
+                  ?.split(" ")
+                  .map((name) => name[0])
+                  .join("");
+              });
+
+              let formatData = {
                 SNo: (index += 1),
-                orderId: order._id,
-                Product: product.productId.productName,
+                orderId: order?._id,
                 Date: moment(order.createdAt).format("MMMM Do YYYY"),
                 Payment: "success",
-                Price: product.productId.productPrice,
-                Qty: product.productQty,
+                Total: order?.amount,
+                Products: productImages,
+                ProductFallback: productFallbacks,
+                ItemsLeft:
+                  productImages.length - 2 > 0 ? productImages.length - 2 : 0,
                 Status: order.status,
-                ProductImage: product.productId.productImages?.[0]?.url,
-                ProductFallback: product.productId.productName
-                  .split(" ")
-                  .map((item) => item.slice(0, 1))
-                  .join(""),
-              }));
+                Orderdata: order,
+              };
 
-              formattedOrders = [...formattedOrders, ...tempFormattedOrders];
+              updatedFormattedOrders = [...updatedFormattedOrders, formatData];
             });
 
-            setOrdersData(formattedOrders);
+            setUpdatedData(updatedFormattedOrders);
           }
         })
         .catch((err) => {
@@ -73,7 +84,10 @@ const OrderHistory = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
       >
-        <UserOrderHistoryTable ordersData={ordersData} noOrder={noOrderError} />
+        <UserOrderHistoryTable
+          noOrder={noOrderError}
+          updatedData={updatedData}
+        />
       </motion.div>
     </div>
   );

@@ -145,6 +145,10 @@ const CartPage = () => {
 
     const body = {
       products: cartData,
+      discountAmount: discountPrice,
+      shippingCharge:
+        getShippingPrice(cartData) === "Free" ? 0 : getShippingPrice(cartData),
+      taxAmount: getTaxPrice(cartData),
     };
 
     try {
@@ -157,6 +161,10 @@ const CartPage = () => {
 
       if (response.status === 200) {
         localStorage.setItem("paymentStatus", "completed");
+        localStorage.setItem(
+          "shippingDetails",
+          JSON.stringify(response.data.shippingDetails)
+        );
       } else {
         localStorage.setItem("paymentStatus", "failed");
       }

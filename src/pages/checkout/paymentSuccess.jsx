@@ -14,12 +14,14 @@ const PaymentSuccess = () => {
 
   const emptyCartAfterPayment = async () => {
       try {
+        const shippingDetails = JSON.parse(localStorage.getItem("shippingDetails"))
         const cancelToken = axios.CancelToken.source();
         const response = await axios.post(
           EMPTY_CART_AFTER_PAYMENT,
           {
             userId: userData?._id,
             cartItems: cartData,
+            shippingDetails,
           },
           {
             cancelToken: cancelToken.token,

@@ -10,6 +10,8 @@ import "./home.scss";
 import NoHotels from "@/components/NoDataPages/NoHotels";
 import { useState } from "react";
 
+
+
 const HomePage = () => {
   const { data, loading } = useFetch(GET_SHOPS);
   const [searchQuery, setSearchQuery] = useState("");
