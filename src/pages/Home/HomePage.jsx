@@ -10,8 +10,6 @@ import "./home.scss";
 import NoHotels from "@/components/NoDataPages/NoHotels";
 import { useState } from "react";
 
-
-
 const HomePage = () => {
   const { data, loading } = useFetch(GET_SHOPS);
   const [searchQuery, setSearchQuery] = useState("");
@@ -44,7 +42,8 @@ const HomePage = () => {
       {loading ? (
         <Loader />
       ) : searchQuery.length > 0 ? (
-        filteredData.map((shop, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-3 xl:grid-cols-4 gap-6 overflow-auto hidden-scrollbar h-[38rem]">
+          {filteredData.map((shop, index) => (
           <motion.div
             className="w-full"
             key={index}
@@ -54,7 +53,8 @@ const HomePage = () => {
           >
             <ShopCard shop={shop} />
           </motion.div>
-        ))
+          ))}
+        </div>
       ) : data.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-3 xl:grid-cols-4 gap-6 overflow-auto hidden-scrollbar h-[38rem]">
           {data.map((shop, index) => (
